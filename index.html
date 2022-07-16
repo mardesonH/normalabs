@@ -35,7 +35,7 @@
             <p><h1 class="title is-3" style="text-align: center;">Login</h1></p>
             <div id="login-card">
               <div id="top"><figure class="image">
-                <img src="assets/imgs/login-top.png" alt="Logo Grupo Normatel em preto">
+                <img id="img-top" src="assets/imgs/login-top.png" alt="Logo Grupo Normatel em preto">
               </figure></div>
               <form>
                 <p class="subtitle is-6" style="text-align: center; padding-top:5px;">Informe abaixo os dados da sua conta:</p>
@@ -89,6 +89,33 @@
     $('#login-show').show();
     $('.footer').show();
     }, 3000);
+
+    const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+    //Configurar esquema de cores e imagens caso o dispositivo esteja no modo escuro
+    function changeTheme(event) {
+      if( event.matches ) {
+    //Eventos caso o dispositivo esteja no modo escuro
+        console.log('Modo Escuro');
+        $('#img-top').attr('src','assets/imgs/login-top-dark.png');
+        $('#loader').attr('background-color', 'black');
+        $('#loader').attr('background-image', 'none');
+        $('#login-card').attr('background-color', 'black');
+        $('#login-card').attr('background-image', 'none');
+
+
+
+      } else {
+        console.log('Modo Claro');
+      }
+    }
+
+    // Escuta a mudança de tema no sistema
+    prefersColorScheme.addListener(changeTheme);
+
+    // Altera o tema conforme o tema do usuário
+    changeTheme(prefersColorScheme);
+
 
 
   </script>
