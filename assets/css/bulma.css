@@ -11981,3 +11981,23 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   animation-iteration-count: infinite;
   cursor: pointer;
 }
+
+@media screen and (prefers-color-scheme: dark) {
+  /* Dark mode styles */
+  #loader{
+    background-color: #000000;
+    background-image: none;
+  }
+  #top{
+    background-color: #000000;
+  }
+  #login-card #top{
+    background-color: #000000;
+    background-image: none;
+  }
+  .footer{
+    color: white;
+    background-color: #000000;
+  }
+
+}
