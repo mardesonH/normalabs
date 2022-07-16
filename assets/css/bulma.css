@@ -11879,7 +11879,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 
 #login-show{
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -11889,7 +11889,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 
 #login-show::after {
   content: "";
-  background-image: url('/assets/imgs/logo-bg.png');
+  background-image: url('../imgs/logo-bg.png');
   background-repeat: repeat;
   background-size: 10%;
   opacity: 0.5;
