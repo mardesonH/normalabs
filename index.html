@@ -5,12 +5,93 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal - Normatel</title>
-
-    <link rel="stylesheet" href="/assets/css/style.css" />
+    <meta name="description" content="Portal de login e funcionalidades para coloboradores do Grupo Normatel">
+    <!-- Favicon -->
     <link rel="shortcut icon" href="/assets/imgs/favicon.ico" />
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css"/>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/bulma.css" />
+    <!-- JQuery -->
+    <script src="/assets/js/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
-    <img class="loader" src="assets/imgs/loader.png" alt="Logo NormaLabs girando">
-</body>
+  <!-- Loader -->
+  <div id="loader">
+    <figure class="image is-128x128">
+      <img class="is-rounded" src="/assets/imgs/logo.png" alt="Logo Grupo Normatel em preto">
+    </figure>
+  </div>
+  <!---/--->
+
+  <section id="login-show">
+    <section class="section">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-half">
+            <p><h1 class="title is-3" style="text-align: center;">Login</h1></p>
+            <div id="login-card">
+              <div id="top"><figure class="image">
+                <img src="/assets/imgs/login-top.png" alt="Logo Grupo Normatel em preto">
+              </figure></div>
+              <form>
+                <p class="subtitle is-6" style="text-align: center; padding-top:5px;">Informe abaixo os dados da sua conta:</p>
+                <div class="field">
+                  <p class="control has-icons-left has-icons-right">
+                    <p>Usuário</p>
+                    <input class="input" type="text" placeholder="Usuário">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-envelope"></i>
+                    </span>
+                    <span class="icon is-small is-right">
+                      <i class="fas fa-check"></i>
+                    </span>
+                  </p>
+                </div>
+                <div class="field">
+                  <p class="control has-icons-left">
+                    <p>Senha</p>
+                    <input class="input" type="password" placeholder="Senha">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-lock"></i>
+                    </span>
+                  </p>
+                </div>
+                <button class="button is-normal" id="login-btn">Login</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="create-acount"><p>Não possui uma conta?</p>
+      <p><a>Clique aqui para criar uma!</a></p></div>
+    </section>
+  </section>
+  
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p><a href="https://www.linkedin.com/company/normalabs-td/?originalSubdomain=br" target="_blank"><img src="/assets/imgs/normalabs-icon.png" alt="" class="normalabs-footer"></a></p>
+      <p>
+        Desenvolvido por <a href="https://mardesonh.github.io/portfolio/" target="_blank">Mardeson Herculano</a></p>
+      
+    </div>
+  </footer>
+
+  <script>
+    //Esconder o footer ao iniciar a página
+    $('.footer').hide();
+    //SetTimeOut para, após o tempo pré determinado, esconder o loader da tela e exibir o conteúdo
+    const loader = setTimeout(() => {
+    $('#loader').hide();
+    $('#login-show').show();
+    $('.footer').show();
+    }, 0);
+
+
+  </script>
+
+  </body>
 </html>
