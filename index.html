@@ -8,10 +8,7 @@
     <meta name="description" content="Portal de login e funcionalidades para coloboradores do Grupo Normatel">
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/imgs/favicon.ico" />
-    <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css"/>
-    
+
     <!-- CSS -->
     <link rel="stylesheet" href="assets/css/bulma.css" />
     <!-- JQuery -->
@@ -22,7 +19,7 @@
   <!-- Loader -->
   <div id="loader">
     <figure class="image is-128x128">
-      <img class="is-rounded" src="assets/imgs/logo.png" alt="Logo Grupo Normatel em preto">
+      <img class="is-rounded" src="assets/imgs/logo.png" alt="Logo Grupo Normatel">
     </figure>
   </div>
   <!---/--->
@@ -35,31 +32,23 @@
             <p><h1 class="title is-3" style="text-align: center;">Login</h1></p>
             <div id="login-card">
               <div id="top"><figure class="image">
-                <img id="img-top" src="assets/imgs/login-top.png" alt="Logo Grupo Normatel em preto">
+                <img id="img-top" src="assets/imgs/login-top.png" alt="Logo Grupo Normatel">
               </figure></div>
               <form>
                 <p class="subtitle is-6" style="text-align: center; padding-top:5px;">Informe abaixo os dados da sua conta:</p>
                 <div class="field">
-                  <p class="control has-icons-left has-icons-right">
-                    <p>Usuário</p>
-                    <input class="input" type="text" placeholder="Usuário">
-                    <span class="icon is-small is-left">
-                      <i class="fas fa-envelope"></i>
-                    </span>
-                    <span class="icon is-small is-right">
-                      <i class="fas fa-check"></i>
-                    </span>
+                  <p class="control">
+                    <p>Email</p>
+                    <input class="input" type="text" placeholder="Email">
                   </p>
                 </div>
                 <div class="field">
-                  <p class="control has-icons-left">
+                  <p class="control">
                     <p>Senha</p>
                     <input class="input" type="password" placeholder="Senha">
-                    <span class="icon is-small is-left">
-                      <i class="fas fa-lock"></i>
-                    </span>
                   </p>
                 </div>
+                <hr>
                 <button class="button is-normal" id="login-btn">Login</button>
               </form>
             </div>
@@ -67,13 +56,77 @@
         </div>
       </div>
       <div id="create-acount"><p>Não possui uma conta?</p>
-      <p><a>Clique aqui para criar uma!</a></p></div>
+      <p><a onclick="registrar()">Clique aqui para criar uma!</a></p></div>
+      
+      <!-- Modal para Registro -->
+      <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card" id="registro">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Cadastrar Usuário</p>
+            <button class="delete" aria-label="close" onclick="fecharRegistro()"></button>
+          </header>
+          <section class="modal-card-body">
+            <form action="">
+              <p>Informe os seus dados abaixo para que o cadastro seja realizado.</p>
+              <hr>
+              <div class="field">
+                <p class="control">
+                  <p>Nome</p>
+                  <input class="input" type="text" placeholder="Nome" required>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control">
+                  <p>Email</p>
+                  <input class="input" type="text" placeholder="Email" required>
+                </p>
+              </div>
+              <p>Setor</p>
+              <div class="select"  style="width: 100%;">
+                <select required  style="width: 100%;">
+                  <option>NormaLabs</option>
+                  <option>Home Center</option>
+                  <option>Engenharia</option>
+                  <option>Incorporações</option>
+                </select>
+              </div>
+              <br>
+              <div class="field">
+                <p class="control">
+                  <p>Cargo</p>
+                  <input class="input" type="text" placeholder="Cargo" required>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control">
+                  <p>Informe a senha</p>
+                  <input class="input" type="password" placeholder="Senha" required>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control">
+                  <p>Confirme a senha</p>
+                  <input class="input" type="password" placeholder="Confirme a senha" required>
+                </p>
+              </div>
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button">Salvar</button>
+            <button class="button" onclick="fecharRegistro()">Cancelar</button>
+          </form>
+          </footer>
+        </div>
+      </div>
+
     </section>
   </section>
   
+  
+
   <footer class="footer">
     <div class="content has-text-centered">
-      <p><a href="https://www.linkedin.com/company/normalabs-td/?originalSubdomain=br" target="_blank"><img src="assets/imgs/normalabs-icon.png" alt="" class="normalabs-footer"></a></p>
+      <p><a href="https://www.linkedin.com/company/normalabs-td/?originalSubdomain=br" target="_blank"><img src="assets/imgs/normalabs-icon.png" alt="Ícone de um foguete - Logo do NormaLabs" class="normalabs-footer"></a></p>
       <p>
         Desenvolvido por <a href="https://mardesonh.github.io/portfolio/" target="_blank">Mardeson Herculano</a></p>
       
@@ -90,28 +143,35 @@
     $('.footer').show();
     }, 3000);
 
-    const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
+    const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
     //Configurar esquema de cores e imagens caso o dispositivo esteja no modo escuro
     function changeTheme(event) {
       if( event.matches ) {
     //Eventos caso o dispositivo esteja no modo escuro
         console.log('Modo Escuro');
         $('#img-top').attr('src','assets/imgs/login-top-dark.png');
-
+        $('.normalabs-footer').attr('src','assets/imgs/normalabs-icon-dark.png');
       } else {
         console.log('Modo Claro');
+        $('#img-top').attr('src','assets/imgs/login-top.png');
+        $('.normalabs-footer').attr('src','assets/imgs/normalabs-icon.png');
       }
     }
-
     // Escuta a mudança de tema no sistema
     prefersColorScheme.addListener(changeTheme);
-
     // Altera o tema conforme o tema do usuário
     changeTheme(prefersColorScheme);
 
-
-
+    //Funções para abrir e fechar o modal de registro de usuário
+    function registrar(){
+      //Chamar Modal
+      $('.modal').addClass('is-active');
+      //Adiciona a classe 'is-active', padronizada pelo Bulma Framework
+    }
+    function fecharRegistro(){
+      $('.modal').removeClass('is-active');
+    }
   </script>
 
   </body>
