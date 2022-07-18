@@ -11996,6 +11996,11 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   color: white;
 }
 
+#password-status, #confirm-password-status{
+  font-size: 12px;
+
+}
+
 /* Alterações de estilo para dispositivos com DarkMode */
 @media screen and (prefers-color-scheme: dark) {
 

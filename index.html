@@ -7,19 +7,21 @@
     <title>Portal - Normatel</title>
     <meta name="description" content="Portal de login e funcionalidades para coloboradores do Grupo Normatel">
     <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/imgs/favicon.ico" />
+    <link rel="shortcut icon" href="/assets/imgs/favicon.ico" />
+
+    <script src="https://kit.fontawesome.com/733152d79f.js" crossorigin="anonymous"></script>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/bulma.css" />
+    <link rel="stylesheet" href="/assets/css/bulma.css" />
     <!-- JQuery -->
-    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="/assets/js/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
   <!-- Loader -->
   <div id="loader">
     <figure class="image is-128x128">
-      <img class="is-rounded" src="assets/imgs/logo.png" alt="Logo Grupo Normatel">
+      <img class="is-rounded" src="/assets/imgs/logo.png" alt="Logo Grupo Normatel">
     </figure>
   </div>
   <!---/--->
@@ -32,20 +34,20 @@
             <p><h1 class="title is-3" style="text-align: center;">Login</h1></p>
             <div id="login-card">
               <div id="top"><figure class="image">
-                <img id="img-top" src="assets/imgs/login-top.png" alt="Logo Grupo Normatel">
+                <img id="img-top" src="/assets/imgs/login-top.png" alt="Logo Grupo Normatel">
               </figure></div>
               <form>
                 <p class="subtitle is-6" style="text-align: center; padding-top:5px;">Informe abaixo os dados da sua conta:</p>
                 <div class="field">
                   <p class="control">
-                    <p>Email</p>
-                    <input class="input" type="text" placeholder="Email">
+                    <p>Usuário</p>
+                    <input class="input" type="text" placeholder="Usuário" required>
                   </p>
                 </div>
                 <div class="field">
                   <p class="control">
                     <p>Senha</p>
-                    <input class="input" type="password" placeholder="Senha">
+                    <input class="input" type="password" placeholder="Senha" required>
                   </p>
                 </div>
                 <hr>
@@ -72,14 +74,8 @@
               <hr>
               <div class="field">
                 <p class="control">
-                  <p>Nome</p>
-                  <input class="input" type="text" placeholder="Nome" required>
-                </p>
-              </div>
-              <div class="field">
-                <p class="control">
-                  <p>Email</p>
-                  <input class="input" type="text" placeholder="Email" required>
+                  <p>Usuário</p>
+                  <input class="input" type="text" placeholder="Seu nome" required>
                 </p>
               </div>
               <p>Setor</p>
@@ -91,7 +87,7 @@
                   <option>Incorporações</option>
                 </select>
               </div>
-              <br>
+              <div class="field"></div> <!-- Espaçamento -->
               <div class="field">
                 <p class="control">
                   <p>Cargo</p>
@@ -101,14 +97,30 @@
               <div class="field">
                 <p class="control">
                   <p>Informe a senha</p>
-                  <input class="input" type="password" placeholder="Senha" required>
+                  <input class="input" type="password" name="password" minlength="8" placeholder="Senha" required>
+                  <span id="password-status"></span>
                 </p>
               </div>
               <div class="field">
                 <p class="control">
                   <p>Confirme a senha</p>
-                  <input class="input" type="password" placeholder="Confirme a senha" required>
+                  <input class="input" type="password" name="confirm-password" placeholder="Confirme a senha" required>
+                  <span id="confirm-password-status"></span>
                 </p>
+              </div>
+              <p>Precisamos de uma foto do seu rosto</p>
+              <div class="file">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="resume" required>
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Upar foto
+                    </span>
+                  </span>
+                </label>
               </div>
           </section>
           <footer class="modal-card-foot">
@@ -126,7 +138,7 @@
 
   <footer class="footer">
     <div class="content has-text-centered">
-      <p><a href="https://www.linkedin.com/company/normalabs-td/?originalSubdomain=br" target="_blank"><img src="assets/imgs/normalabs-icon.png" alt="Ícone de um foguete - Logo do NormaLabs" class="normalabs-footer"></a></p>
+      <p><a href="https://www.linkedin.com/company/normalabs-td/?originalSubdomain=br" target="_blank"><img src="/assets/imgs/normalabs-icon.png" alt="Ícone de um foguete - Logo do NormaLabs" class="normalabs-footer"></a></p>
       <p>
         Desenvolvido por <a href="https://mardesonh.github.io/portfolio/" target="_blank">Mardeson Herculano</a></p>
       
@@ -172,7 +184,30 @@
     function fecharRegistro(){
       $('.modal').removeClass('is-active');
     }
-  </script>
 
+    //Conferir se a senha tem força o suficiente
+    $('input[name=password]').keyup(function(){
+      let numeros = /([0-9])/;
+	    let alfabeto = /([a-zA-Z])/;
+      let alfabetoA = /([A-Z])/;
+      let senha = $(this).val();
+
+      if (senha.length < 8){
+        $('#password-status').html("<span style='color:red'>Insira no mínimo 8 caracteres para a sua senha!</span>");
+      }
+      else {
+        $('#password-status').html("<span style='color:red'>A sua senha deve conter pelo menos uma letra minúscula, uma maíscula e um número!</span>")
+        if (senha.match(numeros) && senha.match(alfabeto) && senha.match(alfabetoA)){
+          $('#password-status').html("<span style='color:green'><b>Senha forte</b></span>")}
+        }
+      });
+      
+      //Confere se a confirmação da senha está igual ao valor da senha.
+      $('input[name=confirm-password]').keyup(function(){
+        //Condicional Ternária para checar os valores
+        $(this).val() == $('input[name=password]').val() ? $('#confirm-password-status').html("<span style='color:green'><b>Senha confirmada!</b></span>") : $('#confirm-password-status').html("<span style='color:red'><b>As senhas precisam ser iguais!</b></span>");
+      });
+
+  </script>
   </body>
 </html>
