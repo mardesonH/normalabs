@@ -18,7 +18,7 @@ let db = new sqlite3.Database('./db-normalabs/db-normalabs.db', sqlite3.OPEN_REA
     if (err) {
       console.error(err.message);
     }
-    console.log('DB Conectado '+db.name);
+    console.log('DB Conectado');
   });
 
 
