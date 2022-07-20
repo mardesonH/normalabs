@@ -90,17 +90,17 @@
     </section>
 
     <div class="columns">
-      <div class="column-portal" style="background-color: #0bab64;">
-        Contra Cheque
+      <div class="column-portal">
+        <p>Contra Cheque</p>
       </div>
-      <div class="column-portal" style="background-color: #1b0bab;">
-        Second column
+      <div class="column-portal">
+        <p>Crachá</p>
       </div>
-      <div class="column-portal" style="background-color: #0bab64;">
-        First column
+      <div class="column-portal">
+        <p>Service Desk</p>
       </div>
-      <div class="column-portal" style="background-color: #1b0bab;">
-        Second column
+      <div class="column-portal">
+        <p>Config.</p>
       </div>
     </div>  
   </section>
@@ -118,7 +118,7 @@
 
   <script>
     //Mudar BG do load baseado no setor do funcionário logado
-    let setor = 'NormaLabs';
+    let setor = 'Incorporações';
     //NormaLabs -> Laranja
     //Engenharia -> Verde
     //Home Center -> Laranja
@@ -166,11 +166,10 @@
       if( event.matches ) {
     //Eventos caso o dispositivo esteja no modo escuro
         console.log('Modo Escuro');
-        $('#img-top').attr('src','assets/imgs/login-top-dark.png');
         $('.normalabs-footer').attr('src','assets/imgs/normalabs-icon-dark.png');
+        $('#loader-portal').css('background-image','linear-gradient(315deg, #000 0%, #000 0%)');
       } else {
         console.log('Modo Claro');
-        $('#img-top').attr('src','assets/imgs/login-top.png');
         $('.normalabs-footer').attr('src','assets/imgs/normalabs-icon.png');
       }
     }
