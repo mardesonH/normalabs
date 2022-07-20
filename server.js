@@ -21,12 +21,10 @@ let db = new sqlite3.Database('./db-normalabs/db-normalabs.db', sqlite3.OPEN_REA
     console.log('DB Conectado '+db.name);
   });
 
-/*  
-let teste = 'users';  
-sql = `CREATE TABLE ${teste} (id INTEGER PRIMARY KEY,user TEXT, setor TEXT, cargo TEXT, senha TEXT)`;
+
+createDB = `CREATE TABLE IF NOT EXISTS 'USERS_NORMA' (id INTEGER PRIMARY KEY, user TEXT, setor TEXT, cargo TEXT, senha TEXT)`;
 console.log('Tabela criada')
-db.run(sql);
-*/
+db.run(createDB);
 
 //Porta do localhost para iniciar o servidor
 server.listen(8081, () => {
