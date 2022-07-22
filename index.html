@@ -36,23 +36,21 @@
               <div id="top"><figure class="image">
                 <img id="img-top" src="/assets/imgs/login-top.png" alt="Logo Grupo Normatel">
               </figure></div>
-              <form>
                 <p class="subtitle is-6" style="text-align: center; padding-top:5px;">Informe abaixo os dados da sua conta:</p>
                 <div class="field">
                   <p class="control">
                     <p>Usuário</p>
-                    <input class="input" type="text" placeholder="Usuário" required>
+                    <input class="input" type="text" id="user" placeholder="Usuário" required>
                   </p>
                 </div>
                 <div class="field">
                   <p class="control">
                     <p>Senha</p>
-                    <input class="input" type="password" placeholder="Senha" required>
+                    <input class="input" type="password" id="senha" placeholder="Senha" required>
                   </p>
                 </div>
                 <hr>
-                <button class="button is-normal" id="login-btn">Login</button>
-              </form>
+                <button class="button is-normal" id="login-btn" onclick="login()">Login</button>
             </div>
           </div>
         </div>
@@ -69,18 +67,24 @@
             <button class="delete" aria-label="close" onclick="fecharRegistro()"></button>
           </header>
           <section class="modal-card-body">
-            <form action="">
+            <form>
               <p>Informe os seus dados abaixo para que o cadastro seja realizado.</p>
               <hr>
               <div class="field">
                 <p class="control">
                   <p>Usuário</p>
-                  <input class="input" type="text" placeholder="Seu nome" required>
+                  <input class="input" type="text" placeholder="Seu nome" id="REG_user" required>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control">
+                  <p>Email</p>
+                  <input class="input" type="email" id="REG_email" placeholder="Email" required>
                 </p>
               </div>
               <p>Setor</p>
               <div class="select"  style="width: 100%;">
-                <select required  style="width: 100%;">
+                <select required  style="width: 100%;" id="REG_setor">
                   <option>NormaLabs</option>
                   <option>Home Center</option>
                   <option>Engenharia</option>
@@ -88,30 +92,34 @@
                 </select>
               </div>
               <div class="field"></div> <!-- Espaçamento -->
-              <div class="field">
-                <p class="control">
-                  <p>Cargo</p>
-                  <input class="input" type="text" placeholder="Cargo" required>
-                </p>
+              <p>Cargo</p>
+              <div class="select"  style="width: 100%;">
+                <select required  style="width: 100%;" id="REG_cargo">
+                  <option>Estagiário</option>
+                  <option>Júnior</option>
+                  <option>Sênior</option>
+                  <option>Pleno</option>
+                </select>
               </div>
+              <div class="field"></div> <!-- Espaçamento -->
               <div class="field">
                 <p class="control">
                   <p>Informe a senha</p>
-                  <input class="input" type="password" name="password" minlength="8" placeholder="Senha" required>
+                  <input class="input" type="password" name="password" id="REG_password" minlength="8" placeholder="Senha" required>
                   <span id="password-status"></span>
                 </p>
               </div>
               <div class="field">
                 <p class="control">
                   <p>Confirme a senha</p>
-                  <input class="input" type="password" name="confirm-password" placeholder="Confirme a senha" required>
+                  <input class="input" type="password" name="confirm-password" id="REG_confirm" placeholder="Confirme a senha" required>
                   <span id="confirm-password-status"></span>
                 </p>
               </div>
               <p>Precisamos de uma foto do seu rosto</p>
               <div class="file">
                 <label class="file-label">
-                  <input class="file-input" type="file" name="resume" required>
+                  <input class="file-input" type="file" name="resume" id="REG_foto" required>
                   <span class="file-cta">
                     <span class="file-icon">
                       <i class="fas fa-upload"></i>
@@ -124,7 +132,7 @@
               </div>
           </section>
           <footer class="modal-card-foot">
-            <button class="button">Salvar</button>
+            <button class="button" onclick="registrar()">Salvar</button>
             <button class="button" onclick="fecharRegistro()">Cancelar</button>
           </form>
           </footer>
@@ -146,6 +154,10 @@
 
 <!-- Include Handlebars from a CDN -->
   <script>
+    var senhasConfirm = false;
+    var senhaVale = false;
+
+
     //Esconder o footer ao iniciar a página
     $('#pg-body').hide();
     $('.footer').hide();
@@ -199,15 +211,59 @@
       else {
         $('#password-status').html("<span style='color:red'>A sua senha deve conter pelo menos uma letra minúscula, uma maíscula e um número!</span>")
         if (senha.match(numeros) && senha.match(alfabeto) && senha.match(alfabetoA)){
-          $('#password-status').html("<span style='color:green'><b>Senha forte</b></span>")}
+          $('#password-status').html("<span style='color:green'><b>Senha forte</b></span>");
+        senhaVale = true;}
         }
       });
       
       //Confere se a confirmação da senha está igual ao valor da senha.
       $('input[name=confirm-password]').keyup(function(){
         //Condicional Ternária para checar os valores
-        $(this).val() == $('input[name=password]').val() ? $('#confirm-password-status').html("<span style='color:green'><b>Senha confirmada!</b></span>") : $('#confirm-password-status').html("<span style='color:red'><b>As senhas precisam ser iguais!</b></span>");
+        if($(this).val() == $('input[name=password]').val()){
+          $('#confirm-password-status').html("<span style='color:green'><b>Senha confirmada!</b></span>")
+        senhasConfirm = true;
+        }
+        else {
+          $('#confirm-password-status').html("<span style='color:red'><b>As senhas precisam ser iguais!</b></span>");
+        senhasConfirm = true;
+        }
       });
+      
+      //Criar usuário
+      //Conferir se os dados são válidos
+      function registrar(){
+        if (senhaVale == true && senhasConfirm == true){
+          let user = $('#REG_user').val();
+          let email = $('#REG_email').val();
+          let setor = $('#REG_setor').val();
+          let cargo = $('#REG_cargo').val();
+          let senha = $('#REG_senha').val();
+          let foto = $('#REG_foto').val();
+
+          console.log(user, email, setor, cargo, senha, foto);
+        }
+        else{
+          alert('Não deu bom não')
+        }
+      }
+
+      //Confirma os dados do Login via POST
+      function login(){
+        let user_name = $('#user').val();
+        let pass = $('#senha').val();
+        
+        let dados = $.post("http://localhost:8081/login",{usuario: user_name, senha: pass}, function(data){
+          console.log(data);
+          localStorage.setItem('login', data);     
+          window.location.replace('./portal.html');
+          });
+          
+          /*if(data === 'yes') {
+                alert('login success');
+              }
+          });*/
+        };
+
 
   </script>
   </body>

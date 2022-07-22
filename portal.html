@@ -74,7 +74,7 @@
         <p class="title">
           Seja bem vindo(a),
         </p>
-        <p class="subtitle" id="user-name">
+        <p class="subtitle" id="userName">
           Mardeson
         </p>
       </div>
@@ -117,6 +117,10 @@
   </footer>
 
   <script>
+    var dadonome = localStorage.getItem("login");
+    console.log(dadonome);
+    $('#userName').text(dadonome);
+
     //Mudar BG do load baseado no setor do funcionário logado
     let setor = 'Engenharia';
     //NormaLabs -> Laranja
