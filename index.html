@@ -67,7 +67,6 @@
             <button class="delete" aria-label="close" onclick="fecharRegistro()"></button>
           </header>
           <section class="modal-card-body">
-            <form>
               <p>Informe os seus dados abaixo para que o cadastro seja realizado.</p>
               <hr>
               <div class="field">
@@ -119,7 +118,7 @@
               <p>Precisamos de uma foto do seu rosto</p>
               <div class="file">
                 <label class="file-label">
-                  <input class="file-input" type="file" name="resume" id="REG_foto" required>
+                  <input class="file-input" type="file" name="resume" id="REG_foto" required accept=".jpg, .jpeg, .png">
                   <span class="file-cta">
                     <span class="file-icon">
                       <i class="fas fa-upload"></i>
@@ -132,9 +131,8 @@
               </div>
           </section>
           <footer class="modal-card-foot">
-            <button class="button" onclick="registrar()">Salvar</button>
+            <button class="button" onclick="criarRegistro()">Salvar</button>
             <button class="button" onclick="fecharRegistro()">Cancelar</button>
-          </form>
           </footer>
         </div>
       </div>
@@ -231,21 +229,21 @@
       
       //Criar usuário
       //Conferir se os dados são válidos
-      function registrar(){
-        if (senhaVale == true && senhasConfirm == true){
-          let user = $('#REG_user').val();
-          let email = $('#REG_email').val();
-          let setor = $('#REG_setor').val();
-          let cargo = $('#REG_cargo').val();
-          let senha = $('#REG_senha').val();
-          let foto = $('#REG_foto').val();
+      function criarRegistro(){
 
-          console.log(user, email, setor, cargo, senha, foto);
-        }
-        else{
-          alert('Não deu bom não')
-        }
-      }
+        let dados = [$('#REG_user').val() , $('#REG_email').val() , $('#REG_setor').val() , $('#REG_cargo').val() , $('#REG_password').val() , $('#REG_foto').val()];
+
+        let registro = $.post("http://localhost:8081/registrar",{usuario: dados[0], email: dados[1], setor: dados[2], cargo: dados[3], senha: dados[4], foto: dados[5]}, function(data){
+          console.log(data);
+          window.alert('Usuário criado!');
+          });
+
+        
+        //Checar se os campos foram preenchidos
+        //if 
+        //if (senhaVale === true && senhasConfirm === true){
+          
+      };
 
       //Confirma os dados do Login via POST
       function login(){
