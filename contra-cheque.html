@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal - Normatel</title>
+    <title>Contra Cheque - Normatel</title>
     <meta name="description" content="Portal de login e funcionalidades para coloboradores do Grupo Normatel">
     <!-- Favicon -->
     <link rel="shortcut icon" href="/assets/imgs/favicon.ico" />
@@ -72,7 +72,7 @@
     <section class="hero is-small">
       <div class="hero-body">
         <p class="title">
-          Seja bem vindo(a),
+          contra-cheque
         </p>
         <p class="subtitle" id="user-name">
           Mardeson
@@ -89,15 +89,7 @@
       </div>
     </section>
 
-    <div class="columns" id="voltar" style="display: none;">
-      <div class="column">
-        <button class="button"><i class="fa fa-arrow-left" aria-hidden="true"> Voltar </i></button>
-      </div>
-      
-    </div>
-    
-
-    <div class="columns" id="options">
+    <div class="columns">
       <div class="column-portal" id="contraCheque">
         <p>Contra Cheque</p>
       </div>
@@ -113,9 +105,6 @@
     </div>  
   </section>
    
-  <section id="funcionalidade">
-    Teste
-  </section>
 
   <footer class="footer">
     <div class="content has-text-centered">
@@ -207,14 +196,7 @@
   });
 
   $('#contraCheque').click(() =>{
-    $('#options').fadeOut();
-    $('#voltar').fadeIn();
-
-    const conteudo = $('#funcionalidade');
-    fetch('contra-cheque.html');
-      then(resp => resp.text());
-      then(html => conteudo.innerHTML = html);
-      $()
+    window.location.replace()
   });
 
   </script>
