@@ -11429,6 +11429,13 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 
 }
 
+@media only screen and (max-width: 380px) {
+
+  .column-portal p{
+  font-size: 25px;
+  }
+}
+
 /* Estilos para o card de login */
 
 #login-card{
