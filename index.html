@@ -30,17 +30,18 @@
     <section class="section">
       <div class="container">
         <div class="columns is-centered">
-          <div class="column is-half">
+          <div class="column is-half" id="cardLogin">
             <p><h1 class="title is-3" style="text-align: center;">Login</h1></p>
             <div id="login-card">
               <div id="top"><figure class="image">
                 <img id="img-top" src="/assets/imgs/login-top.png" alt="Logo Grupo Normatel">
               </figure></div>
                 <p class="subtitle is-6" style="text-align: center; padding-top:5px;">Informe abaixo os dados da sua conta:</p>
+                <span id="status"></span>
                 <div class="field">
                   <p class="control">
-                    <p>Usuário</p>
-                    <input class="input" type="text" id="user" placeholder="Usuário" required>
+                    <p>Email</p>
+                    <input class="input" type="email" id="email" placeholder="Email de usuário" required>
                   </p>
                 </div>
                 <div class="field">
@@ -239,6 +240,7 @@
 
         let registro = $.post("http://localhost:8081/registrar",{usuario: dados[0], email: dados[1], setor: dados[2], cargo: dados[3], senha: dados[4], foto: dados[5]},
           function userRegistrado(data){
+            console.log(data);
             if (data == 'false'){
             console.log('Usuário já registrado');
             window.alert('Um outro usuário já foi registrado utilizando esse nome');
@@ -246,7 +248,7 @@
           else{
             window.alert('Registro feito com sucesso!');
             fecharRegistro();
-            $('#user').val($('#REG_user').val());
+            $('#user').val($('#REG_email').val());
             $('#senha').val($('#REG_password').val());
           }})};
           
@@ -260,21 +262,56 @@
 
       //Confirma os dados do Login via POST
       function login(){
-        let user_name = $('#user').val();
+        let user_name = $('#email').val();
         let pass = $('#senha').val();
-        console.log(user_name, pass);
-        
-        let dados = $.post("http://localhost:8081/login",{usuario: user_name, senha: pass},
+
+        if (user_name.length == 0 || pass.length == 0){
+          $('#status').html('<span style="color: red; background-color: white">Preencha os campos abaixo</span></br>');
+              $('#cardLogin').addClass('treme');
+              const myTimeout = setTimeout(() =>{
+                $('#cardLogin').removeClass('treme');
+              }, 500);
+        }
+        else{
+        //console.log(user_name, pass);
+        let dadosLogin = $.post("http://localhost:8081/login",{usuario: user_name, senha: pass},
           function LoginCheck(data){
-          console.log(data); 
-          window.location.replace('./portal.html');
-          });
+            let valores = JSON.parse(data); 
+            console.log(valores);
+            if (valores == false){
+              $('#status').html('<span style="color: red; background-color: white">Usuário ou senha incorretos</span></br>');
+              $('#cardLogin').addClass('treme');
+              const myTimeout = setTimeout(() =>{
+                $('#cardLogin').removeClass('treme');
+              }, 500);
+              
+            }
+            else{
+              $('#status').html('');
+              $('#cardLogin').removeClass('treme');
+              console.log(valores[0].setor);
+              window.alert('Olá, ' + valores[0].user);
+            }
+            
+              
+          }
           
+        )}
+      };
+          //console.log(valores.login);
+        /*function ConfirmLogin(data){
+          if (data.login == false){
+            console.log('Não existe');
+          }
+          else{
+            localStorage.setItem('loginData', data);
+            window.location.replace('./portal.html');
+          }
+        }       
           /*if(data === 'yes') {
                 alert('login success');
               }
           });*/
-        };
 
 
   </script>

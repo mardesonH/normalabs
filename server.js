@@ -27,8 +27,9 @@ server.get('/', (req, res) => {
     dados.email = req.body.email;
     dados.setor = req.body.setor;
     dados.cargo = req.body.cargo;
-    dados.senha = sha512(req.body.senha, gerarSalt());
-    dados.senha = dados.senha.salt.concat(dados.senha.hash);
+    senha = sha512(req.body.senha, gerarSalt());
+    dados.salt = senha.salt;
+    dados.hash = senha.hash;
     let token = '';
     for (var i = 80; i > 0; --i) token += (Math.floor(Math.random()*256)).toString(16);
     dados.token = token;
@@ -52,7 +53,7 @@ server.get('/', (req, res) => {
             console.log('Usuário não existe')
             const json = JSON.stringify(dados);
             console.log(dados);
-            let criar = `INSERT INTO USERS_NORMA (realUser, user, email, setor, cargo, senha, token) VALUES ( '${realUser}','${req.body.usuario}','${req.body.email}','${req.body.setor}','${req.body.cargo}','${dados.senha}','${token}')`;
+            let criar = `INSERT INTO USERS_NORMA (realUser, user, email, setor, cargo, salt, hash, token) VALUES ( '${realUser}','${req.body.usuario}','${req.body.email}','${req.body.setor}','${req.body.cargo}','${dados.salt}','${dados.hash}','${token}')`;
             db.run(criar);
             res.send(json);   
           }
@@ -80,22 +81,57 @@ function sha512(senha, salt){
   };
 };
 
-//Função para autenticar a senha
-function login(senhaDoLogin, saltNoBanco, hashNoBanco) {
-  var senhaESalt = sha512(senhaDoLogin, saltNoBanco)
-  return hashNoBanco === senhaESalt.hash;
-};
 
-  //usuario: dados[0], email: dados[1], setor: dados[2], cargo: dados[3], senha: dados[4], foto: dados[5]
 
+    //Rota para o Login
     server.post('/login', (req, res) => {
       //Pegar os valores do login para buscar no banco de dados
-      let user = req.body.usuario;
+      let userEmail = req.body.usuario;
       let senha = req.body.senha;
-      const checaLogin = `SELECT * FROM USERS_NORMA WHERE realUser = '${user}'`;
-      user = user.toUpperCase();
-      console.log(user);
+      let ConfirmDados = new Object();
+      ConfirmDados.login = false;
+      const checaLogin = `SELECT * FROM USERS_NORMA WHERE email = '${userEmail}'`;
+
+      db.all(checaLogin, (err, result, fields) => {
+        console.log(result);
+        if (err) throw err;
+        function validarSenha(result){
+          let dadosLogin = JSON.stringify(result);
+          let loginSize = Object.keys(result).length;
+          //Confirma se a senha bate com a senha criptografada no DB
+
+          if (loginSize == 0) {
+            console.log('Login inválido')
+            dadosLogin = false;
+            res.send(dadosLogin);
+          }
+          else {
+          let confirmSalt = login(senha, result[0].salt, result[0].hash);
+          if (confirmSalt == false){
+            console.log('Login inválido')
+            dadosLogin = false;
+            res.send(dadosLogin);
+          }
+          else {
+            console.log('Login válido')
+            console.log(result[0].user);
+            res.send(dadosLogin);
+          };
+        }
+      }
+        validarSenha(result);
+      });
+
+      //Função para autenticar a senha
+      function login(senhaDoLogin, saltNoBanco, hashNoBanco) {
+        var senhaESalt = sha512(senhaDoLogin, saltNoBanco)
+        return hashNoBanco === senhaESalt.hash;
+      };
+
+      /*console.log(user);
       console.log(checaLogin);
+      let loginJSON = JSON.stringify(ConfirmDados);
+      res.send(loginJSON);*/
     });
 
 
@@ -107,7 +143,7 @@ let db = new sqlite3.Database('./db-normalabs/db-normalabs.db', sqlite3.OPEN_REA
   });
 
 
-createDB = `CREATE TABLE IF NOT EXISTS 'USERS_NORMA' (id INTEGER PRIMARY KEY, realUser TEXT, user TEXT, email TEXT, setor TEXT, cargo TEXT, senha TEXT, token TEXT, data TEXT, foto BLOB)`;
+createDB = `CREATE TABLE IF NOT EXISTS 'USERS_NORMA' (id INTEGER PRIMARY KEY, realUser TEXT, user TEXT, email TEXT, setor TEXT, cargo TEXT, salt TEXT, hash TEXT, token TEXT, data TEXT, foto BLOB)`;
 console.log('Tabela criada')
 db.run(createDB);
 
