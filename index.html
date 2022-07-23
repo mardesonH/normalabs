@@ -262,10 +262,11 @@
       function login(){
         let user_name = $('#user').val();
         let pass = $('#senha').val();
+        console.log(user_name, pass);
         
-        let dados = $.post("http://localhost:8081/login",{usuario: user_name, senha: pass}, function(data){
-          console.log(data);
-          localStorage.setItem('login', data);     
+        let dados = $.post("http://localhost:8081/login",{usuario: user_name, senha: pass},
+          function LoginCheck(data){
+          console.log(data); 
           window.location.replace('./portal.html');
           });
           

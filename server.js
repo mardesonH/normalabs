@@ -40,7 +40,7 @@ server.get('/', (req, res) => {
     //console.log(dataRegistro);
 
 
-    //Checar se usuário ou email já existe
+    //Checar se usuário ou email já existem
     const checaNomeText = `SELECT realUser FROM USERS_NORMA WHERE realUser = '${realUser}'`;
 
       db.all(checaNomeText, (err, result, fields) => {
@@ -52,6 +52,8 @@ server.get('/', (req, res) => {
             console.log('Usuário não existe')
             const json = JSON.stringify(dados);
             console.log(dados);
+            let criar = `INSERT INTO USERS_NORMA (realUser, user, email, setor, cargo, senha, token) VALUES ( '${realUser}','${req.body.usuario}','${req.body.email}','${req.body.setor}','${req.body.cargo}','${dados.senha}','${token}')`;
+            db.run(criar);
             res.send(json);   
           }
           else{
@@ -60,19 +62,7 @@ server.get('/', (req, res) => {
           };
       };
       checaNome(result);
-      //console.log(result);
-      
-      //console.log(valor);
-      //res.send(json);
-      
     });
-
-
-    //console.log(checaNome);
-
-      let criar = `INSERT INTO USERS_NORMA (realUser, user, email, setor, cargo, senha, token) VALUES ( '${realUser}','${req.body.usuario}','${req.body.email}','${req.body.setor}','${req.body.cargo}','${dados.senha}','${token}')`;
-      db.run(criar);
-
   });
 
 //Criando a criptografia para a senha
@@ -90,22 +80,24 @@ function sha512(senha, salt){
   };
 };
 
+//Função para autenticar a senha
+function login(senhaDoLogin, saltNoBanco, hashNoBanco) {
+  var senhaESalt = sha512(senhaDoLogin, saltNoBanco)
+  return hashNoBanco === senhaESalt.hash;
+};
+
   //usuario: dados[0], email: dados[1], setor: dados[2], cargo: dados[3], senha: dados[4], foto: dados[5]
 
     server.post('/login', (req, res) => {
       //Pegar os valores do login para buscar no banco de dados
       let user = req.body.usuario;
       let senha = req.body.senha;
+      const checaLogin = `SELECT * FROM USERS_NORMA WHERE realUser = '${user}'`;
       user = user.toUpperCase();
-
-      const checaNomeText = `SELECT * FROM USERS_NORMA WHERE realUser = '${user}'`;
-
-
-
-      const json = JSON.stringify(dados);
       console.log(user);
-      res.end(user);
+      console.log(checaLogin);
     });
+
 
 let db = new sqlite3.Database('./db-normalabs/db-normalabs.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
