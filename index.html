@@ -229,21 +229,34 @@
       
       //Criar usuário
       //Conferir se os dados são válidos
+      
+      var texto;
+      var registrado;
+
       function criarRegistro(){
 
         let dados = [$('#REG_user').val() , $('#REG_email').val() , $('#REG_setor').val() , $('#REG_cargo').val() , $('#REG_password').val() , $('#REG_foto').val()];
 
-        let registro = $.post("http://localhost:8081/registrar",{usuario: dados[0], email: dados[1], setor: dados[2], cargo: dados[3], senha: dados[4], foto: dados[5]}, function(data){
-          console.log(data);
-          window.alert('Usuário criado!');
-          });
+        let registro = $.post("http://localhost:8081/registrar",{usuario: dados[0], email: dados[1], setor: dados[2], cargo: dados[3], senha: dados[4], foto: dados[5]},
+          function userRegistrado(data){
+            if (data == 'false'){
+            console.log('Usuário já registrado');
+            window.alert('Um outro usuário já foi registrado utilizando esse nome');
+          }
+          else{
+            window.alert('Registro feito com sucesso!');
+            fecharRegistro();
+            $('#user').val($('#REG_user').val());
+            $('#senha').val($('#REG_password').val());
+          }})};
+          
+          
 
         
         //Checar se os campos foram preenchidos
         //if 
         //if (senhaVale === true && senhasConfirm === true){
-          
-      };
+      
 
       //Confirma os dados do Login via POST
       function login(){
