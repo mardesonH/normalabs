@@ -32,17 +32,44 @@ server.get('/', (req, res) => {
 
     let realUser = req.body.usuario;
     realUser = realUser.toUpperCase();
+    const data = new Date();
+    let dataRegistro = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`
+    //console.log(dataRegistro);
+
 
     //Checar se usuário ou email já existe
+    const checaNomeText = `SELECT realUser FROM USERS_NORMA WHERE realUser = '${realUser}'`;
+
+      db.all(checaNomeText, (err, result, fields) => {
+      if (err) throw err;
+      function checaNome(result){
+        const mesmoNome = JSON.stringify(result);
+          if (mesmoNome.length <= 0){
+            res.send('Usuário não existe')
+          }
+          else{
+            res.send('Usuário já existe')
+          };
+      };
+      checaNome(result);
+      //console.log(result);
+      
+      //console.log(valor);
+      //res.send(json);
+      
+    });
+
+
+    //console.log(checaNome);
+
+      let criar = `INSERT INTO USERS_NORMA (realUser, user, email, setor, cargo, senha, token) VALUES ( '${realUser}','${req.body.usuario}','${req.body.email}','${req.body.setor}','${req.body.cargo}','${req.body.senha}','${token}')`;
+      db.run(criar);
+
+    //const json = JSON.stringify(dados);
+    //console.log(dados);
+    //res.send(json);   
+
     
-
-    let criar = `INSERT INTO USERS_NORMA (realUser, user, email, setor, cargo, senha, token) VALUES ( '${realUser}','${req.body.usuario}','${req.body.email}','${req.body.setor}','${req.body.cargo}','${req.body.senha}','${token}')`;
-    db.run(criar);
-    console.log(criar);
-
-    const json = JSON.stringify(dados);
-    console.log(dados);
-    res.send(json);
   });
 
   //usuario: dados[0], email: dados[1], setor: dados[2], cargo: dados[3], senha: dados[4], foto: dados[5]
@@ -62,7 +89,7 @@ let db = new sqlite3.Database('./db-normalabs/db-normalabs.db', sqlite3.OPEN_REA
   });
 
 
-createDB = `CREATE TABLE IF NOT EXISTS 'USERS_NORMA' (id INTEGER PRIMARY KEY, realUser TEXT, user TEXT, email TEXT, setor TEXT, cargo TEXT, senha TEXT, token TEXT, foto BLOB)`;
+createDB = `CREATE TABLE IF NOT EXISTS 'USERS_NORMA' (id INTEGER PRIMARY KEY, realUser TEXT, user TEXT, email TEXT, setor TEXT, cargo TEXT, senha TEXT, token TEXT, data TEXT, foto BLOB)`;
 console.log('Tabela criada')
 db.run(createDB);
 
