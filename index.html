@@ -106,8 +106,8 @@
               <select required style="width: 100%;" id="REG_cargo">
                 <option>Estagiário</option>
                 <option>Júnior</option>
-                <option>Sênior</option>
                 <option>Pleno</option>
+                <option>Sênior</option>
               </select>
             </div>
             <div class="field"></div> <!-- Espaçamento -->
@@ -171,155 +171,163 @@
 
     //Confirma se há um usuário ativo
     var dadosUser = localStorage.getItem("dadosUser");
-    dadosUser = dadosUser.length;
-
-    if (dadosUser > 0){
-      window.location.replace('./portal.html');
-
+    if (dadosUser != null){
+      dadosUser = dadosUser.length;
     }
     else{
+      localStorage.setItem('dadosUser', []);
 
-
-    //Esconder o footer ao iniciar a página
-    $('#pg-body').hide();
-    $('.footer').hide();
-    //SetTimeOut para, após o tempo pré determinado, esconder o loader da tela e exibir o conteúdo
-    const loader = setTimeout(() => {
-      $('#loader').hide();
-      $('#pg-body').show();
-      $('.footer').show();
-    }, 3000);
-
-
-    const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    //Configurar esquema de cores e imagens caso o dispositivo esteja no modo escuro
-    function changeTheme(event) {
-      if (event.matches) {
-        //Eventos caso o dispositivo esteja no modo escuro
-        console.log('Modo Escuro');
-        $('#img-top').attr('src', 'assets/imgs/login-top-dark.png');
-        $('.normalabs-footer').attr('src', 'assets/imgs/normalabs-icon-dark.png');
-      } else {
-        console.log('Modo Claro');
-        $('#img-top').attr('src', 'assets/imgs/login-top.png');
-        $('.normalabs-footer').attr('src', 'assets/imgs/normalabs-icon.png');
-      }
+    };
+    
+    if (dadosUser > 0) {
+      window.location.replace('./portal.html');
     }
-    // Escuta a mudança de tema no sistema
-    prefersColorScheme.addListener(changeTheme);
-    // Altera o tema conforme o tema do usuário
-    changeTheme(prefersColorScheme);
+    else {
 
-    //Funções para abrir e fechar o modal de registro de usuário
-    function registrar() {
-      //Chamar Modal
-      $('.modal').addClass('is-active');
-      //Adiciona a classe 'is-active', padronizada pelo Bulma Framework
-    }
-    function fecharRegistro() {
-      $('.modal').removeClass('is-active');
-    }
 
-    //Conferir se a senha tem força o suficiente
-    $('input[name=password]').keyup(function () {
-      let numeros = /([0-9])/;
-      let alfabeto = /([a-zA-Z])/;
-      let alfabetoA = /([A-Z])/;
-      let senha = $(this).val();
+      //Esconder o footer ao iniciar a página
+      $('#pg-body').hide();
+      $('.footer').hide();
+      //SetTimeOut para, após o tempo pré determinado, esconder o loader da tela e exibir o conteúdo
+      const loader = setTimeout(() => {
+        $('#loader').hide();
+        $('#pg-body').show();
+        $('.footer').show();
+      }, 3000);
 
-      if (senha.length < 8) {
-        $('#password-status').html("<span style='color:red'>Insira no mínimo 8 caracteres para a sua senha!</span>");
-      }
-      else {
-        $('#password-status').html("<span style='color:red'>A sua senha deve conter pelo menos uma letra minúscula, uma maíscula e um número!</span>")
-        if (senha.match(numeros) && senha.match(alfabeto) && senha.match(alfabetoA)) {
-          $('#password-status').html("<span style='color:green'><b>Senha forte</b></span>");
-          senhaVale = true;
+
+      const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
+      //Configurar esquema de cores e imagens caso o dispositivo esteja no modo escuro
+      function changeTheme(event) {
+        if (event.matches) {
+          //Eventos caso o dispositivo esteja no modo escuro
+          //console.log('Modo Escuro');
+          $('#img-top').attr('src', 'assets/imgs/login-top-dark.png');
+          $('.normalabs-footer').attr('src', 'assets/imgs/normalabs-icon-dark.png');
+        } else {
+          //console.log('Modo Claro');
+          $('#img-top').attr('src', 'assets/imgs/login-top.png');
+          $('.normalabs-footer').attr('src', 'assets/imgs/normalabs-icon.png');
         }
       }
-    });
+      // Escuta a mudança de tema no sistema
+      prefersColorScheme.addListener(changeTheme);
+      // Altera o tema conforme o tema do usuário
+      changeTheme(prefersColorScheme);
 
-    //Confere se a confirmação da senha está igual ao valor da senha.
-    $('input[name=confirm-password]').keyup(function () {
-      //Condicional Ternária para checar os valores
-      if ($(this).val() == $('input[name=password]').val()) {
-        $('#confirm-password-status').html("<span style='color:green'><b>Senha confirmada!</b></span>")
-        senhasConfirm = true;
+      //Funções para abrir e fechar o modal de registro de usuário
+      function registrar() {
+        //Chamar Modal
+        $('.modal').addClass('is-active');
+        //Adiciona a classe 'is-active', padronizada pelo Bulma Framework
       }
-      else {
-        $('#confirm-password-status').html("<span style='color:red'><b>As senhas precisam ser iguais!</b></span>");
-        senhasConfirm = true;
+      function fecharRegistro() {
+        $('.modal').removeClass('is-active');
       }
-    });
 
-    //Criar usuário
-    //Conferir se os dados são válidos
+      //Conferir se a senha tem força o suficiente
+      $('input[name=password]').keyup(function () {
+        let numeros = /([0-9])/;
+        let alfabeto = /([a-zA-Z])/;
+        let alfabetoA = /([A-Z])/;
+        let senha = $(this).val();
 
-    var texto;
-    var registrado;
-
-    function criarRegistro() {
-
-      let dados = [$('#REG_user').val(), $('#REG_email').val(), $('#REG_setor').val(), $('#REG_cargo').val(), $('#REG_password').val(), $('#REG_foto').val()];
-
-      let registro = $.post("http://localhost:8081/registrar", { usuario: dados[0], email: dados[1], setor: dados[2], cargo: dados[3], senha: dados[4], foto: dados[5] },
-        function userRegistrado(data) {
-          console.log(data);
-          if (data == 'false') {
-            console.log('Usuário já registrado');
-            window.alert('Um outro usuário já foi registrado utilizando esse nome');
+        if (senha.length < 8) {
+          $('#password-status').html("<span style='color:red'>Insira no mínimo 8 caracteres para a sua senha!</span>");
+        }
+        else {
+          $('#password-status').html("<span style='color:red'>A sua senha deve conter pelo menos uma letra minúscula, uma maíscula e um número!</span>")
+          if (senha.match(numeros) && senha.match(alfabeto) && senha.match(alfabetoA)) {
+            $('#password-status').html("<span style='color:green'><b>Senha forte</b></span>");
+            senhaVale = true;
           }
-          else {
-            window.alert('Registro feito com sucesso!');
-            fecharRegistro();
-            $('#user').val($('#REG_email').val());
-            $('#senha').val($('#REG_password').val());
-          }
-        })
-    };
+        }
+      });
 
+      //Confere se a confirmação da senha está igual ao valor da senha.
+      $('input[name=confirm-password]').keyup(function () {
+        //Condicional Ternária para checar os valores
+        if ($(this).val() == $('input[name=password]').val()) {
+          $('#confirm-password-status').html("<span style='color:green'><b>Senha confirmada!</b></span>")
+          senhasConfirm = true;
+        }
+        else {
+          $('#confirm-password-status').html("<span style='color:red'><b>As senhas precisam ser iguais!</b></span>");
+          senhasConfirm = true;
+        }
+      });
 
-    //Confirma os dados do Login via POST
-    function login() {
-      let user_name = $('#email').val();
-      let pass = $('#senha').val();
+      //Criar usuário
+      //Conferir se os dados são válidos
 
-      if (user_name.length == 0 || pass.length == 0) {
-        $('#status').html('<span style="color: red; background-color: white">Preencha os campos abaixo</span></br>');
-        $('#cardLogin').addClass('treme');
-        const myTimeout = setTimeout(() => {
-          $('#cardLogin').removeClass('treme');
-        }, 500);
-      }
-      else {
-        //console.log(user_name, pass);
-        let dadosLogin = $.post("http://localhost:8081/login", { usuario: user_name, senha: pass },
-          function LoginCheck(data) {
-            let valores = JSON.parse(data);
-            console.log(valores);
-            if (valores == false) {
-              $('#status').html('<span style="color: red; background-color: white">Usuário ou senha incorretos</span></br>');
-              $('#cardLogin').addClass('treme');
-              const myTimeout = setTimeout(() => {
-                $('#cardLogin').removeClass('treme');
-              }, 500);
+      var texto;
+      var registrado;
 
+      function criarRegistro() {
+
+      
+        let dados = [$('#REG_user').val(), $('#REG_email').val(), $('#REG_setor').val(), $('#REG_cargo').val(), $('#REG_password').val(), $('#REG_foto').val()];
+
+        let registro = $.post("http://localhost:8081/registrar", { usuario: dados[0], email: dados[1], setor: dados[2], cargo: dados[3], senha: dados[4], foto: dados[5] },
+          function userRegistrado(data) {
+            //console.log(data);
+            if (data == 'false') {
+              //console.log('Usuário já registrado');
+              window.alert('Um outro usuário já foi registrado utilizando esse nome');
             }
             else {
-              $('#status').html('');
-              $('#cardLogin').removeClass('treme');
-              console.log(valores[0].setor);
-              localStorage.setItem('dadosUser', JSON.stringify(valores));
-              window.location.replace('./portal.html');
+              window.alert('Registro feito com sucesso!');
+              fecharRegistro();
+              $('#email').val($('#REG_email').val());
+              $('#senha').val($('#REG_password').val());
+            }
+          })
+      };
+
+
+      //Confirma os dados do Login via POST
+      function login() {
+        let user_name = $('#email').val();
+        let pass = $('#senha').val();
+
+        if (user_name.length == 0 || pass.length == 0) {
+          $('#status').html('<span style="color: red; background-color: white">Preencha os campos abaixo</span></br>');
+          $('#cardLogin').addClass('treme');
+          const myTimeout = setTimeout(() => {
+            $('#cardLogin').removeClass('treme');
+          }, 500);
+        }
+        else {
+          //console.log(user_name, pass);
+          let dadosLogin = $.post("http://localhost:8081/login", { usuario: user_name, senha: pass },
+            function LoginCheck(data) {
+              let valores = JSON.parse(data);
+              //console.log(valores);
+              if (valores == false) {
+                $('#status').html('<span style="color: red; background-color: white">Usuário ou senha incorretos</span></br>');
+                $('#cardLogin').addClass('treme');
+                const myTimeout = setTimeout(() => {
+                  $('#cardLogin').removeClass('treme');
+                }, 500);
+
+              }
+              else {
+                $('#status').html('');
+                $('#cardLogin').removeClass('treme');
+                //console.log(valores[0].setor);
+                localStorage.setItem('dadosUser', JSON.stringify(valores));
+                window.location.replace('./portal.html');
+              }
+
+
             }
 
-
-          }
-
-        )
-      }
+          )
+        }
+      };
     };
-  };
+
+
 
 
   </script>

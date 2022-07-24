@@ -53,7 +53,7 @@
             <a class="navbar-item">
               Home
             </a>
-            <a class="navbar-item">
+            <a class="navbar-item" href="./contra-cheque">
               Contra Cheque
             </a>
             <a class="navbar-item">
@@ -81,7 +81,6 @@
           Seja bem vindo(a),
         </p>
         <p class="subtitle" id="userName">
-          Mardeson
         </p>
       </div>
     </section>
@@ -95,16 +94,8 @@
       </div>
     </section>
 
-    <div class="columns" id="voltar" style="display: none;">
-      <div class="column">
-        <button class="button"><i class="fa fa-arrow-left" aria-hidden="true"> Voltar </i></button>
-      </div>
-      
-    </div>
-    
-
-    <div class="columns" id="options">
-      <div class="column-portal" id="contraCheque">
+    <div class="columns">
+      <div class="column-portal" onclick="contraCheque()">
         <p>Contra Cheque</p>
       </div>
       <div class="column-portal">
@@ -118,7 +109,9 @@
       </div>
     </div>
   </section>
-  
+
+
+
   <footer class="footer">
     <div class="content has-text-centered">
       <p><a href="https://www.linkedin.com/company/normalabs-td/?originalSubdomain=br" target="_blank"><img
@@ -132,10 +125,22 @@
 
   <script>
     var dadosUser = localStorage.getItem("dadosUser");
-    console.log(dadosUser);
-    $('#userName').text(dadosUser.user);
+    if (dadosUser == null){
+      window.location.replace('./index.html');
+    }
+    else{
+      
+    };
+
+    if (dadosUser.length == 0){
+      window.location.replace('./index.html');
+    }
+    else {
+    //console.log(dadosUser);
     dadosUser = JSON.parse(dadosUser);
-    console.log(dadosUser[0].setor);
+    $('#userName').text(dadosUser[0].user);
+    //console.log(dadosUser[0].setor);
+
 
     //Mudar BG do load baseado no setor do funcionário logado
     let setor = dadosUser[0].setor;
@@ -185,11 +190,11 @@
     function changeTheme(event) {
       if (event.matches) {
         //Eventos caso o dispositivo esteja no modo escuro
-        console.log('Modo Escuro');
+        //console.log('Modo Escuro');
         $('.normalabs-footer').attr('src', 'assets/imgs/normalabs-icon-dark.png');
         $('#loader-portal').css('background-image', 'linear-gradient(315deg, #000 0%, #000 0%)');
       } else {
-        console.log('Modo Claro');
+        //console.log('Modo Claro');
         $('.normalabs-footer').attr('src', 'assets/imgs/normalabs-icon.png');
       }
     }
@@ -215,17 +220,11 @@
         });
       });
     });
+  };
 
-  $('#contraCheque').click(() =>{
-    $('#options').fadeOut();
-    $('#voltar').fadeIn();
-
-    const conteudo = $('#funcionalidade');
-    fetch('contra-cheque.html');
-      then(resp => resp.text());
-      then(html => conteudo.innerHTML = html);
-      $()
-  });
+  function contraCheque(){
+    window.location.replace('./contra-cheque');
+  }
 
   </script>
 </body>

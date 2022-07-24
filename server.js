@@ -31,6 +31,10 @@ server.get('/portal', (req, res) => {
   res.sendFile(__dirname + '/portal.html');
 });
 
+server.get('/contra-cheque', (req, res) => {
+  res.sendFile(__dirname + '/contra-cheque.html');
+});
+
 //Rotas Post  
 
 //Dados para registrar o usuário
@@ -67,7 +71,7 @@ server.post('/registrar', (req, res) => {
         console.log('Usuário não existe')
         const json = JSON.stringify(dados);
         console.log(dados);
-        let criar = `INSERT INTO USERS_NORMA (realUser, user, email, setor, cargo, salt, hash, token) VALUES ( '${realUser}','${req.body.usuario}','${req.body.email}','${req.body.setor}','${req.body.cargo}','${dados.salt}','${dados.hash}','${token}')`;
+        let criar = `INSERT INTO USERS_NORMA (realUser, user, email, setor, cargo, salt, hash, token, data) VALUES ( '${realUser}','${req.body.usuario}','${req.body.email}','${req.body.setor}','${req.body.cargo}','${dados.salt}','${dados.hash}','${token}','${dataRegistro}')`;
         db.run(criar);
         res.send(json);
       }
