@@ -125,6 +125,13 @@
 
   <script>
     var dadosUser = localStorage.getItem("dadosUser");
+    if (dadosUser == null){
+      window.location.replace('./index.html');
+    }
+    else{
+      
+    };
+
     if (dadosUser.length == 0){
       window.location.replace('./index.html');
     }

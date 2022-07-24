@@ -172,12 +172,15 @@
     //Confirma se há um usuário ativo
     var dadosUser = localStorage.getItem("dadosUser");
     if (dadosUser != null){
-      dadosUser = dadosUser[0].length;
+      dadosUser = dadosUser.length;
     }
+    else{
+      localStorage.setItem('dadosUser', []);
+
+    };
     
     if (dadosUser > 0) {
       window.location.replace('./portal.html');
-
     }
     else {
 
