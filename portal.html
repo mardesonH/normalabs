@@ -117,12 +117,14 @@
   </footer>
 
   <script>
-    var dadonome = localStorage.getItem("login");
-    console.log(dadonome);
-    $('#userName').text(dadonome);
+    var dadosUser = localStorage.getItem("dadosUser");
+    console.log(dadosUser);
+    $('#userName').text(dadosUser.user);
+    dadosUser = JSON.parse(dadosUser);
+    console.log(dadosUser[0].setor);
 
     //Mudar BG do load baseado no setor do funcionário logado
-    let setor = 'Engenharia';
+    let setor = dadosUser[0].setor;
     //NormaLabs -> Laranja
     //Engenharia -> Verde
     //Home Center -> Laranja

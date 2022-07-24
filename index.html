@@ -290,28 +290,15 @@
               $('#status').html('');
               $('#cardLogin').removeClass('treme');
               console.log(valores[0].setor);
-              window.alert('Olá, ' + valores[0].user);
+              localStorage.setItem('dadosUser', JSON.stringify(valores));
+              window.location.replace('./portal.html');
             }
             
               
           }
-          
+
         )}
       };
-          //console.log(valores.login);
-        /*function ConfirmLogin(data){
-          if (data.login == false){
-            console.log('Não existe');
-          }
-          else{
-            localStorage.setItem('loginData', data);
-            window.location.replace('./portal.html');
-          }
-        }       
-          /*if(data === 'yes') {
-                alert('login success');
-              }
-          });*/
 
 
   </script>
