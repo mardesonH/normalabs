@@ -106,8 +106,8 @@
               <select required style="width: 100%;" id="REG_cargo">
                 <option>Estagiário</option>
                 <option>Júnior</option>
-                <option>Sênior</option>
                 <option>Pleno</option>
+                <option>Sênior</option>
               </select>
             </div>
             <div class="field"></div> <!-- Espaçamento -->
@@ -261,7 +261,7 @@
       function criarRegistro() {
 
       
-        let dados = [$('#REG_user').val(), $('#REG_email').val(), $('#REG_setor').val(), $('#REG_cargo').val(), $('#REG_password').val(), foto];
+        let dados = [$('#REG_user').val(), $('#REG_email').val(), $('#REG_setor').val(), $('#REG_cargo').val(), $('#REG_password').val(), $('#REG_foto').val()];
 
         let registro = $.post("http://localhost:8081/registrar", { usuario: dados[0], email: dados[1], setor: dados[2], cargo: dados[3], senha: dados[4], foto: dados[5] },
           function userRegistrado(data) {
@@ -273,7 +273,7 @@
             else {
               window.alert('Registro feito com sucesso!');
               fecharRegistro();
-              $('#user').val($('#REG_email').val());
+              $('#email').val($('#REG_email').val());
               $('#senha').val($('#REG_password').val());
             }
           })

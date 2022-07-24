@@ -130,8 +130,8 @@
     }
     else {
     //console.log(dadosUser);
-    $('#userName').text(dadosUser.user);
     dadosUser = JSON.parse(dadosUser);
+    $('#userName').text(dadosUser[0].user);
     //console.log(dadosUser[0].setor);
 
 
