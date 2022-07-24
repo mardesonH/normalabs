@@ -296,6 +296,9 @@
           const myTimeout = setTimeout(() => {
             $('#cardLogin').removeClass('treme');
           }, 500);
+          const voltatexto = setTimeout(() => {
+                  $('#status').html('');
+                }, 2000);
         }
         else {
           //console.log(user_name, pass);
@@ -306,9 +309,15 @@
               if (valores == false) {
                 $('#status').html('<span style="color: red; background-color: white">Usuário ou senha incorretos</span></br>');
                 $('#cardLogin').addClass('treme');
+                const voltatexto = setTimeout(() => {
+                  $('#status').html('');
+                }, 2000);
                 const myTimeout = setTimeout(() => {
                   $('#cardLogin').removeClass('treme');
                 }, 500);
+                const voltaEfeito = setTimeout(() => {
+                  $('#status').html('');
+                }, 2000);
 
               }
               else {
