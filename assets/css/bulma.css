@@ -11608,3 +11608,9 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   75% {margin-left: -5px;}
   100% {margin-left: 0;}
 }
+
+@media print {
+.no-print{
+  display: none;
+}
+};

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal - Normatel</title>
+  <title>Contra Cheque - Normatel</title>
   <meta name="description" content="Portal de login e funcionalidades para coloboradores do Grupo Normatel">
   <!-- Favicon -->
   <link rel="shortcut icon" href="/assets/imgs/favicon.ico" />
@@ -50,10 +50,10 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
-            <a class="navbar-item">
+            <a class="navbar-item" href="./portal">
               Home
             </a>
-            <a class="navbar-item" href="./contra-cheque">
+            <a class="navbar-item">
               Contra Cheque
             </a>
             <a class="navbar-item">
@@ -78,41 +78,58 @@
     <section class="hero is-small">
       <div class="hero-body">
         <p class="title">
-          Seja bem vindo(a),
-        </p>
-        <p class="subtitle" id="userName">
+          Contra Cheque
         </p>
       </div>
     </section>
 
 
-    <section class="hero is-small" style="text-align: center;">
-      <div class="hero-body">
-        <p class="subtitle" id="user-name" style="font-size: 14px">
-          <i class="fa-solid fa-circle-info"></i><i> Navegue pelas opções utilizando os botões abaixo</i>
-        </p>
-      </div>
+   
+
+    <section class="section" id="contracheque">
+      <h2 class="subtitle" id="titulo-contracheque">
+      </h2>
+    </section>
+    <section class="section">
+      <table style="width:100%; background-color: #D9D9D9;" >
+        <tr>
+          <th>Funcionário</th>
+          <th>Setor</th>
+          <th>Cargo</th>
+        </tr>
+        <tr>
+          <td id="dadoFuncionario"></td>
+          <td id="dadoSetor"></td>
+          <td id="dadoCargo"></td>
+        </tr>
+      </table>
+    </br>
+    <table style="width:100%; background-color: #D9D9D9;" >
+      <tr>
+        <th>Descrição</th>
+        <th>Valor</th>
+      </tr>
+      <tr>
+        <td>Pagamento mensal</td>
+        <td id="dadoValor"></td>
+      </tr>
+    </table>
+  </br>
+
+    <div class="columns is-centered">
+      <div class="column is-half">
+<button class="button is-normal no-print" id="login-btn" onclick="window.print();">Gerar PDF</button>
+        <div style="margin: 25px;"></div>
+<button class="button is-normal no-print" id="login-btn" onclick="window.location.replace('./portal.html')">Voltar</button>
+</div>
+</div>
+</div>
+    
     </section>
 
-    <div class="columns">
-      <div class="column-portal" onclick="contraCheque()">
-        <p>Contra Cheque</p>
-      </div>
-      <div class="column-portal">
-        <p>Crachá</p>
-      </div>
-      <div class="column-portal">
-        <p>Service Desk</p>
-      </div>
-      <div class="column-portal">
-        <p>Config.</p>
-      </div>
-    </div>
-  </section>
 
 
-
-  <footer class="footer">
+  <footer class="footer no-print">
     <div class="content has-text-centered">
       <p><a href="https://www.linkedin.com/company/normalabs-td/?originalSubdomain=br" target="_blank"><img
             src="/assets/imgs/normalabs-icon.png" alt="Ícone de um foguete - Logo do NormaLabs"
@@ -124,13 +141,17 @@
   </footer>
 
   <script>
+    const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    const d = new Date();
+    let mesatual = meses[d.getMonth()];
+
     var dadosUser = localStorage.getItem("dadosUser");
+
     if (dadosUser.length == 0){
       window.location.replace('./index.html');
     }
     else {
     //console.log(dadosUser);
-    $('#userName').text(dadosUser.user);
     dadosUser = JSON.parse(dadosUser);
     //console.log(dadosUser[0].setor);
 
@@ -213,12 +234,30 @@
         });
       });
     });
+
+    $('#titulo-contracheque').text('Contra-cheque de ' + dadosUser[0].user + ', referente ao mês de ' + mesatual + '.');
+    $('#dadoFuncionario').text(dadosUser[0].user);
+    $('#dadoSetor').text(dadosUser[0].setor);
+    $('#dadoCargo').text(dadosUser[0].cargo);
+
+     switch (dadosUser[0].cargo){
+      case 'Estagiário' :
+      $('#dadoValor').text('R$800');
+      break;
+      case 'Júnior' :
+      $('#dadoValor').text('R$1000');
+      break;
+      case 'Pleno' :
+      $('#dadoValor').text('R$3000');
+      break;
+      case 'Sênior' :
+      $('#dadoValor').text('R$5000');
+      break;
+
+    }; 
+
+
   };
-
-  function contraCheque(){
-    window.location.replace('./contra-cheque');
-  }
-
   </script>
 </body>
 
