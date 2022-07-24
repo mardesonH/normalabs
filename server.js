@@ -4,10 +4,10 @@ const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require("body-parser");
 var crypto = require('crypto');
 
-server.use(bodyParser.urlencoded({ extended: false }));
-server.use(bodyParser.json());
-
+server.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+server.use(bodyParser.json({limit: "50mb"}));
 server.use(express.static('.'));
+
 
 //Aponta para o banco de dados
 let db = new sqlite3.Database('./db-normalabs/db-normalabs.db', sqlite3.OPEN_READWRITE, (err) => {
@@ -35,6 +35,10 @@ server.get('/contra-cheque', (req, res) => {
   res.sendFile(__dirname + '/contra-cheque.html');
 });
 
+server.get('/cracha', (req, res) => {
+  res.sendFile(__dirname + '/cracha.html');
+});
+
 //Rotas Post  
 
 //Dados para registrar o usuário
@@ -51,6 +55,7 @@ server.post('/registrar', (req, res) => {
   let token = '';
   for (var i = 80; i > 0; --i) token += (Math.floor(Math.random() * 256)).toString(16);
   dados.token = token;
+  dados.foto = req.body.foto;
 
   let realUser = req.body.usuario;
   realUser = realUser.toUpperCase();
@@ -71,7 +76,7 @@ server.post('/registrar', (req, res) => {
         console.log('Usuário não existe')
         const json = JSON.stringify(dados);
         console.log(dados);
-        let criar = `INSERT INTO USERS_NORMA (realUser, user, email, setor, cargo, salt, hash, token, data) VALUES ( '${realUser}','${req.body.usuario}','${req.body.email}','${req.body.setor}','${req.body.cargo}','${dados.salt}','${dados.hash}','${token}','${dataRegistro}')`;
+        let criar = `INSERT INTO USERS_NORMA (realUser, user, email, setor, cargo, salt, hash, token, data, foto) VALUES ( '${realUser}','${req.body.usuario}','${req.body.email}','${req.body.setor}','${req.body.cargo}','${dados.salt}','${dados.hash}','${token}','${dataRegistro}','${req.body.foto}')`;
         db.run(criar);
         res.send(json);
       }

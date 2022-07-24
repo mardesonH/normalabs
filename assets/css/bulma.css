@@ -1905,6 +1905,7 @@ fieldset[disabled] .button {
   .button.is-responsive.is-large {
     font-size: 1rem;
   }
+
 }
 
 @media screen and (min-width: 769px) and (max-width: 1023px) {
@@ -11447,6 +11448,17 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
     top: 0;
     text-shadow: 2px 2px #000;
     }
+
+    #fotoUser{
+      width: 80px;
+      height: 80px;  
+    }
+
+}
+
+#fotoUser{
+  width: 150px;
+  height: 150px;  
 }
 
 /* Estilos para o card de login */
@@ -11626,3 +11638,4 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   display: none;
 }
 };
+

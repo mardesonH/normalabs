@@ -130,7 +130,7 @@
             <p>Precisamos de uma foto do seu rosto</p>
             <div class="file">
               <label class="file-label">
-                <input class="file-input" type="file" name="resume" id="REG_foto" required accept=".jpg, .jpeg, .png">
+                <input class="file-input" type="file" name="resume" id="REG_foto" required accept=".jpg, .jpeg, .png" onchange="encodeImageFileAsURL(this)">
                 <span class="file-cta">
                   <span class="file-icon">
                     <i class="fas fa-upload"></i>
@@ -166,6 +166,19 @@
 
 
   <script>
+var fotoBase64 = '';
+
+function encodeImageFileAsURL(element) {
+  var file = element.files[0];
+  var reader = new FileReader();
+  reader.onloadend = function() {
+  //console.log(reader.result)
+  fotoBase64 = reader.result;
+  console.log(fotoBase64);
+  };
+  reader.readAsDataURL(file);  
+};
+
     var senhasConfirm = false;
     var senhaVale = false;
 
@@ -266,7 +279,8 @@
       function criarRegistro() {
 
       
-        let dados = [$('#REG_user').val(), $('#REG_email').val(), $('#REG_setor').val(), $('#REG_cargo').val(), $('#REG_password').val(), $('#REG_foto').val()];
+        let dados = [$('#REG_user').val(), $('#REG_email').val(), $('#REG_setor').val(), $('#REG_cargo').val(), $('#REG_password').val(), fotoBase64];
+        console.log(dados);
 
         let registro = $.post("http://localhost:8081/registrar", { usuario: dados[0], email: dados[1], setor: dados[2], cargo: dados[3], senha: dados[4], foto: dados[5] },
           function userRegistrado(data) {
@@ -296,9 +310,7 @@
           const myTimeout = setTimeout(() => {
             $('#cardLogin').removeClass('treme');
           }, 500);
-          const voltatexto = setTimeout(() => {
-                  $('#status').html('');
-                }, 2000);
+          
         }
         else {
           //console.log(user_name, pass);
