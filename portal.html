@@ -56,7 +56,7 @@
             <a class="navbar-item" href="./contra-cheque">
               Contra Cheque
             </a>
-            <a class="navbar-item">
+            <a class="navbar-item" href="./cracha">
               Crachá
             </a>
             <a class="navbar-item">
@@ -98,7 +98,7 @@
       <div class="column-portal" onclick="contraCheque()">
         <p>Contra Cheque</p>
       </div>
-      <div class="column-portal">
+      <div class="column-portal" onclick="cracha()">
         <p>Crachá</p>
       </div>
       <div class="column-portal">
@@ -171,7 +171,6 @@
         break;
     }
 
-
     //Esconder o menu nav e footer ao iniciar a página
     $('html').attr('class', ''); //"Limpa" a classe no html, para permitir esconder o top menu 
     $('#pg-body').hide();
@@ -224,6 +223,10 @@
 
   function contraCheque(){
     window.location.replace('./contra-cheque');
+  }
+
+  function cracha(){
+    window.location.replace('./cracha');
   }
 
   </script>
