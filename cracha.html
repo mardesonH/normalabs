@@ -89,7 +89,7 @@
     <section class="section">
       <div class="container">
         <div class="columns is-centered">
-          <div class="column is-half" id="cardLogin" onclick="viraCracha()">
+          <div class="column is-half" id="cardLogin" onclick="viraCracha()" style="cursor:pointer">
             <div class="front">      
             <div id="login-card" style="background-color: white; background-image: none; min-height: 100px;">
                     <div id="top" class="crachaTop">
@@ -122,17 +122,32 @@
                               </figure>
                             </div>
                             <br>
-                            <div>
-                              <img src="" alt="" id="fotoUser" style="border-radius: 15px; margin-bottom: 10px;">
-                            </div>
+                            <p class="card-item" style="color: white;background-color: gray; font-size: small;">
+                              NOME
+                             </p>
                             <footer class="card-footer">
-                              <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="nomeCracha">
-                                Estagiário
+                              <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="crachaBackUser">
                               </p>
                             </footer>
+                            <p class="card-item" style="color: white;background-color: gray; font-size: small;">
+                              SETOR
+                             </p>
                             <footer class="card-footer">
-                              <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black;" id="funcaoCracha">
-                                Estagiário
+                              <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="crachaBackSetor">
+                              </p>
+                            </footer>
+                            <p class="card-item" style="color: white;background-color: gray; font-size: small;">
+                              CARGO
+                             </p>
+                            <footer class="card-footer">
+                              <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="crachaBackCargo">
+                              </p>
+                            </footer>
+                            <p class="card-item" style="color: white;background-color: gray; font-size: small;">
+                              MEMBRO DESDE
+                             </p>
+                            <footer class="card-footer">
+                              <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="crachaBackData">
                               </p>
                             </footer>
                           </div>
@@ -263,6 +278,11 @@
     //Popula o crachá com os dados
     $('#nomeCracha').html(`<strong>${(dadosUser[0].user).toUpperCase()}</strong>`);
     $('#funcaoCracha').html(`${(dadosUser[0].cargo).toUpperCase()}`);
+
+    $('#crachaBackUser').html(`${(dadosUser[0].user).toUpperCase()}`);
+    $('#crachaBackSetor').html(`${(dadosUser[0].setor).toUpperCase()}`);
+    $('#crachaBackCargo').html(`${(dadosUser[0].cargo).toUpperCase()}`);
+    $('#crachaBackData').html(`${(dadosUser[0].data)}`);
 
     
   
