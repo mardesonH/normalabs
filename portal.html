@@ -95,8 +95,16 @@
       </div>
     </section>
 
-    <div class="columns">
-      <div class="column-portal">
+    <div class="columns" id="voltar" style="display: none;">
+      <div class="column">
+        <button class="button"><i class="fa fa-arrow-left" aria-hidden="true"> Voltar </i></button>
+      </div>
+      
+    </div>
+    
+
+    <div class="columns" id="options">
+      <div class="column-portal" id="contraCheque">
         <p>Contra Cheque</p>
       </div>
       <div class="column-portal">
@@ -110,9 +118,7 @@
       </div>
     </div>
   </section>
-
-
-
+  
   <footer class="footer">
     <div class="content has-text-centered">
       <p><a href="https://www.linkedin.com/company/normalabs-td/?originalSubdomain=br" target="_blank"><img
@@ -209,6 +215,17 @@
         });
       });
     });
+
+  $('#contraCheque').click(() =>{
+    $('#options').fadeOut();
+    $('#voltar').fadeIn();
+
+    const conteudo = $('#funcionalidade');
+    fetch('contra-cheque.html');
+      then(resp => resp.text());
+      then(html => conteudo.innerHTML = html);
+      $()
+  });
 
   </script>
 </body>

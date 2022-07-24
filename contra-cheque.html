@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="has-navbar-fixed-top">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contra Cheque - Normatel</title>
+    <meta name="description" content="Portal de login e funcionalidades para coloboradores do Grupo Normatel">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/imgs/favicon.ico" />
+
+    <script src="https://kit.fontawesome.com/733152d79f.js" crossorigin="anonymous"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/bulma.css" />
+    <!-- JQuery -->
+    <script src="/assets/js/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <!-- Loader -->
+  <div id="loader-portal">
+    <figure class="image is-128x128">
+      <img class="is-rounded loader-img" src="/assets/imgs/logo.png" alt="Logo Grupo Normatel">
+    </figure>
+  </div>
+  <!---/--->
+
+  <section id="pg-body">
+
+    <!-- Nav Menu -->
+    <div id="menu">
+      <nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <div class="navbar-item" href="/index.html">
+            <img src="/assets/imgs/logo.png" height="28" class="loader-img">
+          </div>
+      
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+      
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item">
+              Home
+            </a>
+            <a class="navbar-item">
+              Contra Cheque
+            </a>
+            <a class="navbar-item">
+              Crachá
+            </a>
+            <a class="navbar-item">
+              Service Desk
+            </a>
+            <a class="navbar-item">
+              Configurações
+            </a>
+          </div>
+          <div class="navbar-end">
+            <a class="navbar-item" href="../">
+              Logout
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <section class="hero is-small">
+      <div class="hero-body">
+        <p class="title">
+          contra-cheque
+        </p>
+        <p class="subtitle" id="user-name">
+          Mardeson
+        </p>
+      </div>
+    </section>
+    
+    
+    <section class="hero is-small" style="text-align: center;">
+      <div class="hero-body">
+        <p class="subtitle" id="user-name" style="font-size: 14px">
+          <i class="fa-solid fa-circle-info"></i><i> Navegue pelas opções utilizando os botões abaixo</i>
+        </p>
+      </div>
+    </section>
+
+    <div class="columns">
+      <div class="column-portal" id="contraCheque">
+        <p>Contra Cheque</p>
+      </div>
+      <div class="column-portal">
+        <p>Crachá</p>
+      </div>
+      <div class="column-portal">
+        <p>Service Desk</p>
+      </div>
+      <div class="column-portal">
+        <p>Config.</p>
+      </div>
+    </div>  
+  </section>
+   
+
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p><a href="https://www.linkedin.com/company/normalabs-td/?originalSubdomain=br" target="_blank"><img src="/assets/imgs/normalabs-icon.png" alt="Ícone de um foguete - Logo do NormaLabs" class="normalabs-footer"></a></p>
+      <p>
+        Desenvolvido por <a href="https://mardesonh.github.io/portfolio/" target="_blank">Mardeson Herculano</a></p>
+      
+    </div>
+  </footer>
+
+  <script>
+    //Mudar BG do load baseado no setor do funcionário logado
+    let setor = 'Engenharia';
+    //NormaLabs -> Laranja
+    //Engenharia -> Verde
+    //Home Center -> Laranja
+    //Incorporações -> Azul
+    switch (setor) {
+  case 'NormaLabs':
+    $('#loader-portal').css('background-image','linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
+    $('.navbar').css('background-image','linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
+    $('.loader-img').attr('src','/assets/imgs/normalabs-icon-white.png');
+    break;
+  case 'Home Center':
+    $('#loader-portal').css('background-image','linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
+    $('.navbar').css('background-image','linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
+    $('.loader-img').attr('src','/assets/imgs/logo.png');
+    break;
+  case 'Engenharia':
+    $('#loader-portal').css('background-image','linear-gradient(315deg, #3bb78f 0%, #0bab64 74%)');
+    $('.navbar').css('background-image','linear-gradient(315deg, #3bb78f 0%, #0bab64 74%)');
+    $('.loader-img').attr('src','/assets/imgs/logo.png');
+    break;
+  case 'Incorporações':
+    $('#loader-portal').css('background-image','linear-gradient(315deg, #2a2a72 0%, #009ffd 74%)');
+    $('.navbar').css('background-image','linear-gradient(315deg, #2a2a72 0%, #009ffd 74%)');
+    $('.loader-img').attr('src','/assets/imgs/logo.png');
+    break;
+}
+
+
+    //Esconder o menu nav e footer ao iniciar a página
+    $('html').attr('class',''); //"Limpa" a classe no html, para permitir esconder o top menu 
+    $('#pg-body').hide();
+    $('.footer').hide();
+    //SetTimeOut para, após o tempo pré determinado, esconder o loader da tela e exibir o conteúdo
+    const loader = setTimeout(() => {
+    $('html').attr('class','has-navbar-fixed-top'); //Atribui a classe "has-navbar-fixed-top" para que o menu fique responsivo
+    $('#loader-portal').hide();
+    $('#pg-body').show();
+    $('.footer').show();
+    }, 1500);
+
+
+    const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    //Configurar esquema de cores e imagens caso o dispositivo esteja no modo escuro
+    function changeTheme(event) {
+      if( event.matches ) {
+    //Eventos caso o dispositivo esteja no modo escuro
+        console.log('Modo Escuro');
+        $('.normalabs-footer').attr('src','assets/imgs/normalabs-icon-dark.png');
+        $('#loader-portal').css('background-image','linear-gradient(315deg, #000 0%, #000 0%)');
+      } else {
+        console.log('Modo Claro');
+        $('.normalabs-footer').attr('src','assets/imgs/normalabs-icon.png');
+      }
+    }
+    // Escuta a mudança de tema no sistema
+    prefersColorScheme.addListener(changeTheme);
+    // Altera o tema conforme o tema do usuário
+    changeTheme(prefersColorScheme);
+
+//Hamburguer Menu (Carregado do BULMA)
+  document.addEventListener('DOMContentLoaded', () => {
+  // Get all "navbar-burger" elements
+  const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+  // Add a click event on each of them
+  $navbarBurgers.forEach( el => {
+    el.addEventListener('click', () => {
+      // Get the target from the "data-target" attribute
+      const target = el.dataset.target;
+      const $target = document.getElementById(target);
+      // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+      el.classList.toggle('is-active');
+      $target.classList.toggle('is-active');
+
+    });
+  });
+  });
+
+  $('#contraCheque').click(() =>{
+    window.location.replace()
+  });
+
+  </script>
+  </body>
+</html>
