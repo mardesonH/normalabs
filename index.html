@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal - Normatel</title>
-    <meta name="description" content="Portal de login e funcionalidades para coloboradores do Grupo Normatel">
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="/assets/imgs/favicon.ico" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal - Normatel</title>
+  <meta name="description" content="Portal de login e funcionalidades para coloboradores do Grupo Normatel">
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/assets/imgs/favicon.ico" />
 
-    <script src="https://kit.fontawesome.com/733152d79f.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/733152d79f.js" crossorigin="anonymous"></script>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="/assets/css/bulma.css" />
-    <!-- JQuery -->
-    <script src="/assets/js/jquery-3.6.0.min.js"></script>
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/bulma.css" />
+  <!-- JQuery -->
+  <script src="/assets/js/jquery-3.6.0.min.js"></script>
 </head>
+
 <body>
 
   <!-- Loader -->
@@ -30,36 +32,42 @@
     <section class="section">
       <div class="container">
         <div class="columns is-centered">
-          <div class="column is-half">
-            <p><h1 class="title is-3" style="text-align: center;">Login</h1></p>
+          <div class="column is-half" id="cardLogin">
+            <p>
+            <h1 class="title is-3" style="text-align: center;">Login</h1>
+            </p>
             <div id="login-card">
-              <div id="top"><figure class="image">
-                <img id="img-top" src="/assets/imgs/login-top.png" alt="Logo Grupo Normatel">
-              </figure></div>
-              <form>
-                <p class="subtitle is-6" style="text-align: center; padding-top:5px;">Informe abaixo os dados da sua conta:</p>
-                <div class="field">
-                  <p class="control">
-                    <p>Usuário</p>
-                    <input class="input" type="text" placeholder="Usuário" required>
-                  </p>
-                </div>
-                <div class="field">
-                  <p class="control">
-                    <p>Senha</p>
-                    <input class="input" type="password" placeholder="Senha" required>
-                  </p>
-                </div>
-                <hr>
-                <button class="button is-normal" id="login-btn">Login</button>
-              </form>
+              <div id="top">
+                <figure class="image">
+                  <img id="img-top" src="/assets/imgs/login-top.png" alt="Logo Grupo Normatel">
+                </figure>
+              </div>
+              <p class="subtitle is-6" style="text-align: center; padding-top:5px;">Informe abaixo os dados da sua
+                conta:</p>
+              <span id="status"></span>
+              <div class="field">
+                <p class="control">
+                <p>Email</p>
+                <input class="input" type="email" id="email" placeholder="Email de usuário" required>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control">
+                <p>Senha</p>
+                <input class="input" type="password" id="senha" placeholder="Senha" required>
+                </p>
+              </div>
+              <hr>
+              <button class="button is-normal" id="login-btn" onclick="login()">Login</button>
             </div>
           </div>
         </div>
       </div>
-      <div id="create-acount"><p>Não possui uma conta?</p>
-      <p><a onclick="registrar()">Clique aqui para criar uma!</a></p></div>
-      
+      <div id="create-acount">
+        <p>Não possui uma conta?</p>
+        <p><a onclick="registrar()">Clique aqui para criar uma!</a></p>
+      </div>
+
       <!-- Modal para Registro -->
       <div class="modal">
         <div class="modal-background"></div>
@@ -69,106 +77,132 @@
             <button class="delete" aria-label="close" onclick="fecharRegistro()"></button>
           </header>
           <section class="modal-card-body">
-            <form action="">
-              <p>Informe os seus dados abaixo para que o cadastro seja realizado.</p>
-              <hr>
-              <div class="field">
-                <p class="control">
-                  <p>Usuário</p>
-                  <input class="input" type="text" placeholder="Seu nome" required>
-                </p>
-              </div>
-              <p>Setor</p>
-              <div class="select"  style="width: 100%;">
-                <select required  style="width: 100%;">
-                  <option>NormaLabs</option>
-                  <option>Home Center</option>
-                  <option>Engenharia</option>
-                  <option>Incorporações</option>
-                </select>
-              </div>
-              <div class="field"></div> <!-- Espaçamento -->
-              <div class="field">
-                <p class="control">
-                  <p>Cargo</p>
-                  <input class="input" type="text" placeholder="Cargo" required>
-                </p>
-              </div>
-              <div class="field">
-                <p class="control">
-                  <p>Informe a senha</p>
-                  <input class="input" type="password" name="password" minlength="8" placeholder="Senha" required>
-                  <span id="password-status"></span>
-                </p>
-              </div>
-              <div class="field">
-                <p class="control">
-                  <p>Confirme a senha</p>
-                  <input class="input" type="password" name="confirm-password" placeholder="Confirme a senha" required>
-                  <span id="confirm-password-status"></span>
-                </p>
-              </div>
-              <p>Precisamos de uma foto do seu rosto</p>
-              <div class="file">
-                <label class="file-label">
-                  <input class="file-input" type="file" name="resume" required>
-                  <span class="file-cta">
-                    <span class="file-icon">
-                      <i class="fas fa-upload"></i>
-                    </span>
-                    <span class="file-label">
-                      Upar foto
-                    </span>
+            <p>Informe os seus dados abaixo para que o cadastro seja realizado.</p>
+            <hr>
+            <div class="field">
+              <p class="control">
+              <p>Usuário</p>
+              <input class="input" type="text" placeholder="Seu nome" id="REG_user" required>
+              </p>
+            </div>
+            <div class="field">
+              <p class="control">
+              <p>Email</p>
+              <input class="input" type="email" id="REG_email" placeholder="Email" required>
+              </p>
+            </div>
+            <p>Setor</p>
+            <div class="select" style="width: 100%;">
+              <select required style="width: 100%;" id="REG_setor">
+                <option>NormaLabs</option>
+                <option>Home Center</option>
+                <option>Engenharia</option>
+                <option>Incorporações</option>
+              </select>
+            </div>
+            <div class="field"></div> <!-- Espaçamento -->
+            <p>Cargo</p>
+            <div class="select" style="width: 100%;">
+              <select required style="width: 100%;" id="REG_cargo">
+                <option>Estagiário</option>
+                <option>Júnior</option>
+                <option>Sênior</option>
+                <option>Pleno</option>
+              </select>
+            </div>
+            <div class="field"></div> <!-- Espaçamento -->
+            <div class="field">
+              <p class="control">
+              <p>Informe a senha</p>
+              <input class="input" type="password" name="password" id="REG_password" minlength="8" placeholder="Senha"
+                required>
+              <span id="password-status"></span>
+              </p>
+            </div>
+            <div class="field">
+              <p class="control">
+              <p>Confirme a senha</p>
+              <input class="input" type="password" name="confirm-password" id="REG_confirm"
+                placeholder="Confirme a senha" required>
+              <span id="confirm-password-status"></span>
+              </p>
+            </div>
+            <p>Precisamos de uma foto do seu rosto</p>
+            <div class="file">
+              <label class="file-label">
+                <input class="file-input" type="file" name="resume" id="REG_foto" required accept=".jpg, .jpeg, .png">
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <i class="fas fa-upload"></i>
                   </span>
-                </label>
-              </div>
+                  <span class="file-label">
+                    Upar foto
+                  </span>
+                </span>
+              </label>
+            </div>
           </section>
           <footer class="modal-card-foot">
-            <button class="button">Salvar</button>
+            <button class="button" onclick="criarRegistro()">Salvar</button>
             <button class="button" onclick="fecharRegistro()">Cancelar</button>
-          </form>
           </footer>
         </div>
       </div>
 
     </section>
   </section>
-  
+
 
   <footer class="footer">
     <div class="content has-text-centered">
-      <p><a href="https://www.linkedin.com/company/normalabs-td/?originalSubdomain=br" target="_blank"><img src="/assets/imgs/normalabs-icon.png" alt="Ícone de um foguete - Logo do NormaLabs" class="normalabs-footer"></a></p>
+      <p><a href="https://www.linkedin.com/company/normalabs-td/?originalSubdomain=br" target="_blank"><img
+            src="/assets/imgs/normalabs-icon.png" alt="Ícone de um foguete - Logo do NormaLabs"
+            class="normalabs-footer"></a></p>
       <p>
         Desenvolvido por <a href="https://mardesonh.github.io/portfolio/" target="_blank">Mardeson Herculano</a></p>
-      
+
     </div>
   </footer>
 
-<!-- Include Handlebars from a CDN -->
+
   <script>
+    var senhasConfirm = false;
+    var senhaVale = false;
+
+    //Confirma se há um usuário ativo
+    var dadosUser = localStorage.getItem("dadosUser");
+    dadosUser = dadosUser.length;
+
+    if (dadosUser > 0){
+      window.location.replace('./portal.html');
+
+    }
+    else{
+
+
     //Esconder o footer ao iniciar a página
     $('#pg-body').hide();
     $('.footer').hide();
     //SetTimeOut para, após o tempo pré determinado, esconder o loader da tela e exibir o conteúdo
     const loader = setTimeout(() => {
-    $('#loader').hide();
-    $('#pg-body').show();
-    $('.footer').show();
+      $('#loader').hide();
+      $('#pg-body').show();
+      $('.footer').show();
     }, 3000);
 
 
     const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
     //Configurar esquema de cores e imagens caso o dispositivo esteja no modo escuro
     function changeTheme(event) {
-      if( event.matches ) {
-    //Eventos caso o dispositivo esteja no modo escuro
+      if (event.matches) {
+        //Eventos caso o dispositivo esteja no modo escuro
         console.log('Modo Escuro');
-        $('#img-top').attr('src','assets/imgs/login-top-dark.png');
-        $('.normalabs-footer').attr('src','assets/imgs/normalabs-icon-dark.png');
+        $('#img-top').attr('src', 'assets/imgs/login-top-dark.png');
+        $('.normalabs-footer').attr('src', 'assets/imgs/normalabs-icon-dark.png');
       } else {
         console.log('Modo Claro');
-        $('#img-top').attr('src','assets/imgs/login-top.png');
-        $('.normalabs-footer').attr('src','assets/imgs/normalabs-icon.png');
+        $('#img-top').attr('src', 'assets/imgs/login-top.png');
+        $('.normalabs-footer').attr('src', 'assets/imgs/normalabs-icon.png');
       }
     }
     // Escuta a mudança de tema no sistema
@@ -177,38 +211,118 @@
     changeTheme(prefersColorScheme);
 
     //Funções para abrir e fechar o modal de registro de usuário
-    function registrar(){
+    function registrar() {
       //Chamar Modal
       $('.modal').addClass('is-active');
       //Adiciona a classe 'is-active', padronizada pelo Bulma Framework
     }
-    function fecharRegistro(){
+    function fecharRegistro() {
       $('.modal').removeClass('is-active');
     }
 
     //Conferir se a senha tem força o suficiente
-    $('input[name=password]').keyup(function(){
+    $('input[name=password]').keyup(function () {
       let numeros = /([0-9])/;
-	    let alfabeto = /([a-zA-Z])/;
+      let alfabeto = /([a-zA-Z])/;
       let alfabetoA = /([A-Z])/;
       let senha = $(this).val();
 
-      if (senha.length < 8){
+      if (senha.length < 8) {
         $('#password-status').html("<span style='color:red'>Insira no mínimo 8 caracteres para a sua senha!</span>");
       }
       else {
         $('#password-status').html("<span style='color:red'>A sua senha deve conter pelo menos uma letra minúscula, uma maíscula e um número!</span>")
-        if (senha.match(numeros) && senha.match(alfabeto) && senha.match(alfabetoA)){
-          $('#password-status').html("<span style='color:green'><b>Senha forte</b></span>")}
+        if (senha.match(numeros) && senha.match(alfabeto) && senha.match(alfabetoA)) {
+          $('#password-status').html("<span style='color:green'><b>Senha forte</b></span>");
+          senhaVale = true;
         }
-      });
-      
-      //Confere se a confirmação da senha está igual ao valor da senha.
-      $('input[name=confirm-password]').keyup(function(){
-        //Condicional Ternária para checar os valores
-        $(this).val() == $('input[name=password]').val() ? $('#confirm-password-status').html("<span style='color:green'><b>Senha confirmada!</b></span>") : $('#confirm-password-status').html("<span style='color:red'><b>As senhas precisam ser iguais!</b></span>");
-      });
+      }
+    });
+
+    //Confere se a confirmação da senha está igual ao valor da senha.
+    $('input[name=confirm-password]').keyup(function () {
+      //Condicional Ternária para checar os valores
+      if ($(this).val() == $('input[name=password]').val()) {
+        $('#confirm-password-status').html("<span style='color:green'><b>Senha confirmada!</b></span>")
+        senhasConfirm = true;
+      }
+      else {
+        $('#confirm-password-status').html("<span style='color:red'><b>As senhas precisam ser iguais!</b></span>");
+        senhasConfirm = true;
+      }
+    });
+
+    //Criar usuário
+    //Conferir se os dados são válidos
+
+    var texto;
+    var registrado;
+
+    function criarRegistro() {
+
+      let dados = [$('#REG_user').val(), $('#REG_email').val(), $('#REG_setor').val(), $('#REG_cargo').val(), $('#REG_password').val(), $('#REG_foto').val()];
+
+      let registro = $.post("http://localhost:8081/registrar", { usuario: dados[0], email: dados[1], setor: dados[2], cargo: dados[3], senha: dados[4], foto: dados[5] },
+        function userRegistrado(data) {
+          console.log(data);
+          if (data == 'false') {
+            console.log('Usuário já registrado');
+            window.alert('Um outro usuário já foi registrado utilizando esse nome');
+          }
+          else {
+            window.alert('Registro feito com sucesso!');
+            fecharRegistro();
+            $('#user').val($('#REG_email').val());
+            $('#senha').val($('#REG_password').val());
+          }
+        })
+    };
+
+
+    //Confirma os dados do Login via POST
+    function login() {
+      let user_name = $('#email').val();
+      let pass = $('#senha').val();
+
+      if (user_name.length == 0 || pass.length == 0) {
+        $('#status').html('<span style="color: red; background-color: white">Preencha os campos abaixo</span></br>');
+        $('#cardLogin').addClass('treme');
+        const myTimeout = setTimeout(() => {
+          $('#cardLogin').removeClass('treme');
+        }, 500);
+      }
+      else {
+        //console.log(user_name, pass);
+        let dadosLogin = $.post("http://localhost:8081/login", { usuario: user_name, senha: pass },
+          function LoginCheck(data) {
+            let valores = JSON.parse(data);
+            console.log(valores);
+            if (valores == false) {
+              $('#status').html('<span style="color: red; background-color: white">Usuário ou senha incorretos</span></br>');
+              $('#cardLogin').addClass('treme');
+              const myTimeout = setTimeout(() => {
+                $('#cardLogin').removeClass('treme');
+              }, 500);
+
+            }
+            else {
+              $('#status').html('');
+              $('#cardLogin').removeClass('treme');
+              console.log(valores[0].setor);
+              localStorage.setItem('dadosUser', JSON.stringify(valores));
+              window.location.replace('./portal.html');
+            }
+
+
+          }
+
+        )
+      }
+    };
+  };
+
 
   </script>
-  </body>
+</body>
+
 </html>
