@@ -11,6 +11,10 @@ Clone o repositório e, utilizando o Git Bash ou algum Shell similar, rode o có
 ```sh
 nodemon node server.js
 ```
+Para rodar é só entrar no 
+```sh
+http://localhost:8081/
+```
 Após isso, é só criar um novo usuário e utilizar!
 
 #### Features
