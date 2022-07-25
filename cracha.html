@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal - Normatel</title>
+  <title>Crachá - Normatel</title>
   <meta name="description" content="Portal de login e funcionalidades para coloboradores do Grupo Normatel">
   <!-- Favicon -->
   <link rel="shortcut icon" href="/assets/imgs/favicon.ico" />
@@ -16,6 +16,9 @@
   <link rel="stylesheet" href="/assets/css/bulma.css" />
   <!-- JQuery -->
   <script src="/assets/js/jquery-3.6.0.min.js"></script>
+
+  <!-- Flip Effect -->
+  <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
 
   <!-- Função de logout -->
   <script src="./assets/js/logout.js"></script>
@@ -31,7 +34,6 @@
   <!---/--->
 
   <section id="pg-body">
-
     <!-- Nav Menu -->
     <div id="menu">
       <nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
@@ -50,13 +52,13 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
-            <a class="navbar-item">
+            <a class="navbar-item" href="./portal">
               Home
             </a>
             <a class="navbar-item" href="./contra-cheque">
               Contra Cheque
             </a>
-            <a class="navbar-item" href="./cracha">
+            <a class="navbar-item">
               Crachá
             </a>
             <a class="navbar-item" href="./service-desk">
@@ -72,39 +74,88 @@
       </nav>
     </div>
 
-    <section class="hero is-small">
-      <div class="hero-body">
-        <p class="title">
-          Seja bem vindo(a),
-        </p>
-        <p class="subtitle" id="userName">
-        </p>
-      </div>
+      <section class="hero is-small" style="text-align: center;">
+        <div class="hero-body">
+          <p class="title">Crachá Digital</p>
+          <br>
+          <p class="subtitle" id="user-name" style="font-size: 14px">
+            <i class="fa-solid fa-circle-info"></i><i> Clique no crachá para ver as outras informações</i></p>
+        </div>
+      </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-half" id="cardLogin" onclick="viraCracha()" style="cursor:pointer">
+            <div class="front">      
+            <div id="login-card" style="background-color: white; background-image: none; min-height: 100px;">
+                    <div id="top" class="crachaTop">
+                      <figure class="image">
+                        <img id="img-top" src="/assets/imgs/login-top.png" alt="Logo Grupo Normatel">
+                      </figure>
+                    </div>
+                    <br>
+                    <div>
+                      <img src="" alt="" id="fotoUser" style="border-radius: 15px; margin-bottom: 10px;">
+                    </div>
+                    <footer class="card-footer">
+                      <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="nomeCracha">
+                        Estagiário
+                      </p>
+                    </footer>
+                    <footer class="card-footer">
+                      <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black;" id="funcaoCracha">
+                        Estagiário
+                      </p>
+                    </footer>
+                  </div>
+                  </div>
+
+                  <div class="back" style="display: none;">      
+                    <div id="login-card" style="background-color: white; background-image: none; min-height: 100px;">
+                            <div id="top" class="crachaTop">
+                              <figure class="image">
+                                <img id="img-top" src="/assets/imgs/login-top.png" alt="Logo Grupo Normatel">
+                              </figure>
+                            </div>
+                            <br>
+                            <p class="card-item" style="color: white;background-color: gray; font-size: small;">
+                              NOME
+                             </p>
+                            <footer class="card-footer">
+                              <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="crachaBackUser">
+                              </p>
+                            </footer>
+                            <p class="card-item" style="color: white;background-color: gray; font-size: small;">
+                              SETOR
+                             </p>
+                            <footer class="card-footer">
+                              <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="crachaBackSetor">
+                              </p>
+                            </footer>
+                            <p class="card-item" style="color: white;background-color: gray; font-size: small;">
+                              CARGO
+                             </p>
+                            <footer class="card-footer">
+                              <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="crachaBackCargo">
+                              </p>
+                            </footer>
+                            <p class="card-item" style="color: white;background-color: gray; font-size: small;">
+                              MEMBRO DESDE
+                             </p>
+                            <footer class="card-footer">
+                              <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="crachaBackData">
+                              </p>
+                            </footer>
+                          </div>
+                          </div>
+
+
+          </div>
+        </div>
+
     </section>
-
-
-    <section class="hero is-small" style="text-align: center;">
-      <div class="hero-body">
-        <p class="subtitle" id="user-name" style="font-size: 14px">
-          <i class="fa-solid fa-circle-info"></i><i> Navegue pelas opções utilizando os botões abaixo</i>
-        </p>
-      </div>
-    </section>
-
-    <div class="columns">
-      <div class="column-portal" onclick="contraCheque()">
-        <p>Contra Cheque</p>
-      </div>
-      <div class="column-portal" onclick="cracha()">
-        <p>Crachá</p>
-      </div>
-      <div class="column-portal" onclick="serviceDesk()">
-        <p>Service Desk</p>
-      </div>
-    </div>
   </section>
-
-
 
   <footer class="footer">
     <div class="content has-text-centered">
@@ -119,6 +170,7 @@
 
   <script>
     var dadosUser = localStorage.getItem("dadosUser");
+    
     if (dadosUser == null){
       window.location.replace('./index.html');
     }
@@ -132,7 +184,6 @@
     else {
     //console.log(dadosUser);
     dadosUser = JSON.parse(dadosUser);
-    $('#userName').text(dadosUser[0].user);
     //console.log(dadosUser[0].setor);
 
 
@@ -146,24 +197,29 @@
       case 'NormaLabs':
         $('#loader-portal').css('background-image', 'linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
         $('.navbar').css('background-image', 'linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
+        $('.crachaTop').css('background-image', 'linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
         $('.loader-img').attr('src', '/assets/imgs/normalabs-icon-white.png');
         break;
       case 'Home Center':
         $('#loader-portal').css('background-image', 'linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
         $('.navbar').css('background-image', 'linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
+        $('.crachaTop').css('background-image', 'linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
         $('.loader-img').attr('src', '/assets/imgs/logo.png');
         break;
       case 'Engenharia':
         $('#loader-portal').css('background-image', 'linear-gradient(315deg, #3bb78f 0%, #0bab64 74%)');
         $('.navbar').css('background-image', 'linear-gradient(315deg, #3bb78f 0%, #0bab64 74%)');
+        $('.crachaTop').css('background-image', 'linear-gradient(315deg, #3bb78f 0%, #0bab64 74%)');
         $('.loader-img').attr('src', '/assets/imgs/logo.png');
         break;
       case 'Incorporações':
         $('#loader-portal').css('background-image', 'linear-gradient(315deg, #2a2a72 0%, #009ffd 74%)');
         $('.navbar').css('background-image', 'linear-gradient(315deg, #2a2a72 0%, #009ffd 74%)');
+        $('.crachaTop').css('background-image', 'linear-gradient(315deg, #2a2a72 0%, #009ffd 74%)');
         $('.loader-img').attr('src', '/assets/imgs/logo.png');
         break;
     }
+
 
     //Esconder o menu nav e footer ao iniciar a página
     $('html').attr('class', ''); //"Limpa" a classe no html, para permitir esconder o top menu 
@@ -213,20 +269,32 @@
         });
       });
     });
+
+    $('#fotoUser').attr('src', dadosUser[0].foto);
+
+    //Popula o crachá com os dados
+    $('#nomeCracha').html(`<strong>${(dadosUser[0].user).toUpperCase()}</strong>`);
+    $('#funcaoCracha').html(`${(dadosUser[0].cargo).toUpperCase()}`);
+
+    $('#crachaBackUser').html(`${(dadosUser[0].user).toUpperCase()}`);
+    $('#crachaBackSetor').html(`${(dadosUser[0].setor).toUpperCase()}`);
+    $('#crachaBackCargo').html(`${(dadosUser[0].cargo).toUpperCase()}`);
+    $('#crachaBackData').html(`${(dadosUser[0].data)}`);
+
+    
+  
   };
 
-  function contraCheque(){
-    window.location.replace('./contra-cheque');
-  }
+  const loaderCracha = setTimeout(() => {
+  $('#cardLogin').trigger('click');
+    }, 1500);
 
-  function cracha(){
-    window.location.replace('./cracha');
-  }
+  
 
-  function serviceDesk(){
-    window.location.replace('./service-desk');
-  }
-
+  function viraCracha(){
+      $('.back').show();
+      $("#cardLogin").flip(); 
+    }
   </script>
 </body>
 
