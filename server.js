@@ -22,6 +22,11 @@ createDB = `CREATE TABLE IF NOT EXISTS 'USERS_NORMA' (id INTEGER PRIMARY KEY, re
 console.log('Tabela criada')
 db.run(createDB);
 
+//Cria o banco de dados para os chamados, caso ele não exista
+createDBDesk = `CREATE TABLE IF NOT EXISTS 'CHAMADOS' (id INTEGER PRIMARY KEY, titulo TEXT, descr TEXT, user TEXT, resposta TEXT, status TEXT)`;
+console.log('Tabela Service Desk criada')
+db.run(createDBDesk);
+
 //Rotas da aplicação
 server.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
@@ -38,6 +43,12 @@ server.get('/contra-cheque', (req, res) => {
 server.get('/cracha', (req, res) => {
   res.sendFile(__dirname + '/cracha.html');
 });
+
+server.get('/service-desk', (req, res) => {
+  res.sendFile(__dirname + '/service-desk.html');
+});
+
+
 
 //Rotas Post  
 
@@ -150,6 +161,63 @@ server.post('/login', (req, res) => {
     return hashNoBanco === senhaESalt.hash;
   };
 });
+
+server.post('/dados-service', (req, res) => {
+  const dadosService = `SELECT * FROM CHAMADOS`;
+  db.all(dadosService, (err, result, fields) => {
+  console.log(result);
+  const json = JSON.stringify(result);
+  console.log(json);
+  res.send(json);
+})
+});
+
+server.post('/fechar-chamado', (req, res) => {
+  var resposta = req.body.resp;
+  var idChamado = req.body.id;
+  idChamado = parseInt(idChamado) + 1;
+  var userLocal = req.body.user;
+ console.log(idChamado);
+  const consultaChamado = `SELECT * FROM CHAMADOS WHERE id = '${idChamado}'`;
+  db.all(consultaChamado, (err, result, fields) => {
+    let id = result[0].id;
+    console.log(result);
+    let user = result[0].user;
+    
+    checaChamado(id,resposta, user);
+
+    function checaChamado (id, resp, user){
+      console.log(id);
+      console.log(resp);
+      if (user != userLocal){
+        
+        console.log(resp);
+        res.send('Não')
+      }
+      else{
+        console.log('Iguais');
+        let UpaResposta = `UPDATE CHAMADOS SET resposta =  ('${resp}'), status = 'fechado' WHERE id = ${id}`;
+        db.all(UpaResposta, (err, result, fields) => {
+        console.log(UpaResposta);
+        res.send('Sim')
+        });
+      }
+    }
+
+  });
+
+
+});
+
+server.post('/abrir-chamado', (req, res) => {
+  let tituloChamado = req.body.titulo;
+  let descriChamado = req.body.descri;
+  let userChamado = req.body.user;
+  const inserirChamado = `INSERT INTO CHAMADOS (titulo, descr, user, status) VALUES ('${tituloChamado}', '${descriChamado}', '${userChamado}', 'aberto')`;
+  db.all(inserirChamado, (err, result, fields) => {
+    res.send('Feito');});
+});
+
 
 
 //Porta do localhost para iniciar o servidor

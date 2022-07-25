@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="has-navbar-fixed-top">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Desk - Normatel</title>
+  <meta name="description" content="Portal de login e funcionalidades para coloboradores do Grupo Normatel">
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/assets/imgs/favicon.ico" />
+
+  <script src="https://kit.fontawesome.com/733152d79f.js" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/bulma.css" />
+  <!-- JQuery -->
+  <script src="/assets/js/jquery-3.6.0.min.js"></script>
+
+  <!-- Flip Effect -->
+  <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+
+  <!-- Função de logout -->
+  <script src="./assets/js/logout.js"></script>
+</head>
+
+<body>
+  <!-- Loader -->
+  <div id="loader-portal">
+    <figure class="image is-128x128">
+      <img class="is-rounded loader-img" src="/assets/imgs/logo.png" alt="Logo Grupo Normatel">
+    </figure>
+  </div>
+  <!---/--->
+
+  <section id="pg-body">
+    <!-- Nav Menu -->
+    <div id="menu">
+      <nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <div class="navbar-item" href="/index.html">
+            <img src="/assets/imgs/logo.png" height="28" class="loader-img">
+          </div>
+
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+            data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item" href="./portal">
+              Home
+            </a>
+            <a class="navbar-item" href="./contra-cheque">
+              Contra Cheque
+            </a>
+            <a class="navbar-item" href="./cracha">
+              Crachá
+            </a>
+            <a class="navbar-item">
+              Service Desk
+            </a>
+          </div>
+          <div class="navbar-end">
+            <div class="navbar-item" onclick="logout()">
+              Logout
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <section class="hero is-small" style="text-align: center;">
+      <div class="hero-body">
+        <p class="title">Service Desk</p>
+        <br>
+        <p class="subtitle" id="user-name" style="font-size: 14px">
+          <i class="fa-solid fa-circle-info"></i><i> Para adicionar um novo chamado, clique em 'Adicionar'</i>
+        </p>
+        <button class="button is-normal" id="login-btn" onclick="abrirChamado()" style="width: 40%;">Abrir chamado</button>
+    </section>
+    <div style="display: none" id="preService"></div>
+
+
+    <!-- Modal para Registro -->
+    <div class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card" id="registro">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Abrir Chamado</p>
+          <button class="delete" aria-label="close" onclick="fecharRegistro()"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="field">
+            <p class="control">
+            <p>Título do Chamado</p>
+            <input class="input" type="text" placeholder="Chamado" id="CHAMADO_titulo" required>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control">
+            <p>Descrição</p>
+            <input class="input" type="text" id="CHAMADO_descr" placeholder="Descreva o chamado" required>
+            </p>
+          </div>
+          
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button" onclick="criarChamado()">Salvar</button>
+          <button class="button" onclick="fecharRegistro()">Cancelar</button>
+        </footer>
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p><a href="https://www.linkedin.com/company/normalabs-td/?originalSubdomain=br" target="_blank"><img
+            src="/assets/imgs/normalabs-icon.png" alt="Ícone de um foguete - Logo do NormaLabs"
+            class="normalabs-footer"></a></p>
+      <p>
+        Desenvolvido por <a href="https://mardesonh.github.io/portfolio/" target="_blank">Mardeson Herculano</a></p>
+
+    </div>
+  </footer>
+
+  <script>
+    var dadosUser = localStorage.getItem("dadosUser");
+
+    if (dadosUser == null) {
+      window.location.replace('./index.html');
+    }
+    else {
+
+    };
+
+    if (dadosUser.length == 0) {
+      window.location.replace('./index.html');
+    }
+    else {
+      //console.log(dadosUser);
+      dadosUser = JSON.parse(dadosUser);
+      //console.log(dadosUser[0].setor);
+
+
+      //Mudar BG do load baseado no setor do funcionário logado
+      let setor = dadosUser[0].setor;
+      //NormaLabs -> Laranja
+      //Engenharia -> Verde
+      //Home Center -> Laranja
+      //Incorporações -> Azul
+      switch (setor) {
+        case 'NormaLabs':
+          $('#loader-portal').css('background-image', 'linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
+          $('.navbar').css('background-image', 'linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
+          $('.crachaTop').css('background-image', 'linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
+          $('.loader-img').attr('src', '/assets/imgs/normalabs-icon-white.png');
+          break;
+        case 'Home Center':
+          $('#loader-portal').css('background-image', 'linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
+          $('.navbar').css('background-image', 'linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
+          $('.crachaTop').css('background-image', 'linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%)');
+          $('.loader-img').attr('src', '/assets/imgs/logo.png');
+          break;
+        case 'Engenharia':
+          $('#loader-portal').css('background-image', 'linear-gradient(315deg, #3bb78f 0%, #0bab64 74%)');
+          $('.navbar').css('background-image', 'linear-gradient(315deg, #3bb78f 0%, #0bab64 74%)');
+          $('.crachaTop').css('background-image', 'linear-gradient(315deg, #3bb78f 0%, #0bab64 74%)');
+          $('.loader-img').attr('src', '/assets/imgs/logo.png');
+          break;
+        case 'Incorporações':
+          $('#loader-portal').css('background-image', 'linear-gradient(315deg, #2a2a72 0%, #009ffd 74%)');
+          $('.navbar').css('background-image', 'linear-gradient(315deg, #2a2a72 0%, #009ffd 74%)');
+          $('.crachaTop').css('background-image', 'linear-gradient(315deg, #2a2a72 0%, #009ffd 74%)');
+          $('.loader-img').attr('src', '/assets/imgs/logo.png');
+          break;
+      }
+
+
+      //Esconder o menu nav e footer ao iniciar a página
+      $('html').attr('class', ''); //"Limpa" a classe no html, para permitir esconder o top menu 
+      $('#pg-body').hide();
+      $('.footer').hide();
+      //SetTimeOut para, após o tempo pré determinado, esconder o loader da tela e exibir o conteúdo
+      const loader = setTimeout(() => {
+        $('html').attr('class', 'has-navbar-fixed-top'); //Atribui a classe "has-navbar-fixed-top" para que o menu fique responsivo
+        $('#loader-portal').hide();
+        $('#pg-body').show();
+        $('.footer').show();
+      }, 1500);
+
+
+      const prefersColorScheme = window.matchMedia('(prefers-color-scheme: dark)');
+      //Configurar esquema de cores e imagens caso o dispositivo esteja no modo escuro
+      function changeTheme(event) {
+        if (event.matches) {
+          //Eventos caso o dispositivo esteja no modo escuro
+          //console.log('Modo Escuro');
+          $('.normalabs-footer').attr('src', 'assets/imgs/normalabs-icon-dark.png');
+          $('#loader-portal').css('background-image', 'linear-gradient(315deg, #000 0%, #000 0%)');
+        } else {
+          //console.log('Modo Claro');
+          $('.normalabs-footer').attr('src', 'assets/imgs/normalabs-icon.png');
+        }
+      }
+      // Escuta a mudança de tema no sistema
+      prefersColorScheme.addListener(changeTheme);
+      // Altera o tema conforme o tema do usuário
+      changeTheme(prefersColorScheme);
+
+      //Hamburguer Menu (Carregado do BULMA)
+      document.addEventListener('DOMContentLoaded', () => {
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+        // Add a click event on each of them
+        $navbarBurgers.forEach(el => {
+          el.addEventListener('click', () => {
+            // Get the target from the "data-target" attribute
+            const target = el.dataset.target;
+            const $target = document.getElementById(target);
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            el.classList.toggle('is-active');
+            $target.classList.toggle('is-active');
+
+          });
+        });
+      });
+
+      //Puxar os dados do service desk
+      function gerarService() {
+        let gerarService = $.post("http://localhost:8081/dados-service", { usuario: 'teste' },
+          function serviceDesk(data) {
+            let valores = JSON.parse(data);
+            console.log(valores);
+
+            Object.keys(valores).forEach(function (key) {
+              if (valores[key].status == 'fechado'){
+                $('#preService').after(`<section class="hero is-small" style="align-items: center; padding: 20px"><div class="box" style="width: 85%; background-color: #d3d3d3;"><div class="field"><label class="label"><del>Chamado nº #0${valores[key].id}</del></label><div class="columns"><div class="column"><label class="label">Título</label><div class="control"><input class="input" type="text" value="${valores[key].titulo}" disabled></div></div><div class="column"><label class="label">Autor</label><div class="control"><input class="input" type="text" value="${valores[key].user}" disabled></div></div></div><label class="label">Descrição</label><div class="control"><input class="input" type="text" value="${valores[key].descr}" disabled></div><br><label class="label">Resposta</label><div class="control"><input class="input" type="text" value="${valores[key].resposta}" disabled></div></div><button class="button" id="login-btn" style="width: 100%;" disabled>Chamado Encerrado</button></div></div></section>`);
+              }
+              else{
+
+              $('#preService').after(`<section class="hero is-small" style="align-items: center; padding: 20px"><div class="box" style="width: 85%;"><div class="field"><label class="label">Chamado nº #0${valores[key].id}</label><div class="columns"><div class="column"><label class="label">Título</label><div class="control"><input class="input" type="text" value="${valores[key].titulo}" disabled></div></div><div class="column"><label class="label">Autor</label><div class="control"><input class="input" type="text" value="${valores[key].user}" disabled></div></div></div><label class="label">Descrição</label><div class="control"><input class="input" type="text" value="${valores[key].descr}" disabled></div><br><label class="label">Resposta</label><div class="control"><input class="input" type="text" placeholder="Insira a sua resposta aqui" required id="resposta${valores[key].id}"></div></div><button class="button" id="login-btn" style="width: 100%;" onclick="encerrarChamado(${valores[key].id})">Encerrar chamado</button></div></div></section>`);
+              };
+            });
+          })
+      };
+
+      gerarService();
+
+      function encerrarChamado(id){
+         //Checa se o campo resposta está preenchido   
+        let resposta = $('#resposta'+ id).val();
+        if (resposta == ''){          
+          window.alert('Você deve inserir uma resposta para encerrar o chamado!');
+        }
+        else{
+          //Caso positivo, checar se o usuário corresponde ao do DB
+          let idChamado = id - 1;
+          console.log(dadosUser[0].user);
+          userCheck = dadosUser[0].user;
+
+          
+          let gerarService = $.post("http://localhost:8081/fechar-chamado", { id: idChamado, resp : resposta, user : userCheck},
+          function serviceDesk(data) {
+            console.log(data);
+            if (data == 'Não'){
+              window.alert('Você só pode encerrar chamados que você mesmo abriu!');
+            }
+            else{
+              window.alert('Chamado encerrado com sucesso!');
+              window.location.replace('./service-desk');
+            }
+        });
+      }
+    };
+
+    function abrirChamado(){
+      $('.modal').addClass('is-active');
+    }
+
+    function fecharRegistro() {
+        $('.modal').removeClass('is-active');
+      }
+
+      function criarChamado() {
+        let newChamado = [$('#CHAMADO_titulo').val(), $('#CHAMADO_descr').val(), dadosUser[0].user];
+        console.log(newChamado);
+        if ($('#CHAMADO_titulo').val() == '' || $('#CHAMADO_descr').val() == ''){
+          window.alert('Você deve preencher os dados');
+        }
+        else{
+          let novoChamado = $.post("http://localhost:8081/abrir-chamado", { titulo: $('#CHAMADO_titulo').val(), descri : $('#CHAMADO_descr').val(), user : dadosUser[0].user},
+          function novoService(data) {
+            if (data == 'Feito'){
+              window.alert('Chamado aberto com sucesso!');
+              $('.modal').removeClass('is-active');
+              window.location.replace('./service-desk');
+            }
+        });
+      } 
+      }
+
+    };
+
+  </script>
+</body>
+
+</html>
