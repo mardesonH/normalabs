@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crachá - Normatel</title>
+  <title>Service Desk - Normatel</title>
   <meta name="description" content="Portal de login e funcionalidades para coloboradores do Grupo Normatel">
   <!-- Favicon -->
   <link rel="shortcut icon" href="/assets/imgs/favicon.ico" />
@@ -58,10 +58,10 @@
             <a class="navbar-item" href="./contra-cheque">
               Contra Cheque
             </a>
-            <a class="navbar-item">
+            <a class="navbar-item" href="./cracha">
               Crachá
             </a>
-            <a class="navbar-item" href="./service-desk">
+            <a class="navbar-item">
               Service Desk
             </a>
             <a class="navbar-item">
@@ -79,85 +79,47 @@
 
       <section class="hero is-small" style="text-align: center;">
         <div class="hero-body">
-          <p class="title">Crachá Digital</p>
+          <p class="title">Service Desk</p>
           <br>
           <p class="subtitle" id="user-name" style="font-size: 14px">
-            <i class="fa-solid fa-circle-info"></i><i> Clique no crachá para ver as outras informações</i></p>
-        </div>
+            <i class="fa-solid fa-circle-info"></i><i> Para adicionar um novo chamado, clique em 'Adicionar'</i></p>
       </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="columns is-centered">
-          <div class="column is-half" id="cardLogin" onclick="viraCracha()" style="cursor:pointer">
-            <div class="front">      
-            <div id="login-card" style="background-color: white; background-image: none; min-height: 100px;">
-                    <div id="top" class="crachaTop">
-                      <figure class="image">
-                        <img id="img-top" src="/assets/imgs/login-top.png" alt="Logo Grupo Normatel">
-                      </figure>
-                    </div>
-                    <br>
-                    <div>
-                      <img src="" alt="" id="fotoUser" style="border-radius: 15px; margin-bottom: 10px;">
-                    </div>
-                    <footer class="card-footer">
-                      <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="nomeCracha">
-                        Estagiário
-                      </p>
-                    </footer>
-                    <footer class="card-footer">
-                      <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black;" id="funcaoCracha">
-                        Estagiário
-                      </p>
-                    </footer>
-                  </div>
-                  </div>
-
-                  <div class="back" style="display: none;">      
-                    <div id="login-card" style="background-color: white; background-image: none; min-height: 100px;">
-                            <div id="top" class="crachaTop">
-                              <figure class="image">
-                                <img id="img-top" src="/assets/imgs/login-top.png" alt="Logo Grupo Normatel">
-                              </figure>
-                            </div>
-                            <br>
-                            <p class="card-item" style="color: white;background-color: gray; font-size: small;">
-                              NOME
-                             </p>
-                            <footer class="card-footer">
-                              <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="crachaBackUser">
-                              </p>
-                            </footer>
-                            <p class="card-item" style="color: white;background-color: gray; font-size: small;">
-                              SETOR
-                             </p>
-                            <footer class="card-footer">
-                              <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="crachaBackSetor">
-                              </p>
-                            </footer>
-                            <p class="card-item" style="color: white;background-color: gray; font-size: small;">
-                              CARGO
-                             </p>
-                            <footer class="card-footer">
-                              <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="crachaBackCargo">
-                              </p>
-                            </footer>
-                            <p class="card-item" style="color: white;background-color: gray; font-size: small;">
-                              MEMBRO DESDE
-                             </p>
-                            <footer class="card-footer">
-                              <p class="card-footer-item" style="text-align: center; padding-top:5px; color: black; font-size: larger;" id="crachaBackData">
-                              </p>
-                            </footer>
-                          </div>
-                          </div>
-
-
+      <div style="display: none" id="preService"></div>
+  
+      <section class="hero is-small" style="align-items: center; padding: 20px">
+        <form class="box" style="width: 85%;">
+          <div class="field">
+            <label class="label">Chamado nº #01</label>
+            <div class="columns">
+              <div class="column">
+                <label class="label">Título</label>
+            <div class="control">
+              <input class="input" type="text" value="Teste" disabled>
+            </div>
+              </div>
+              <div class="column">
+                <label class="label">Autor</label>
+            <div class="control">
+              <input class="input" type="text" value="mardeson" disabled>
+            </div>
+              </div>
+              </div>
+            <label class="label">Descrição</label>
+            <div class="control">
+              <input class="input" type="text" value="Teste" disabled>
+            </div>
+            <br>
+            <label class="label">Resposta</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Insira a sua resposta aqui">
+            </div>
           </div>
-        </div>
+          </div>
+          <button class="button" id="login-btn" style="width: 100%;">Encerrar chamado</button>
+        </form>
+      </section>
+      
 
-    </section>
   </section>
 
   <footer class="footer">
@@ -273,31 +235,31 @@
       });
     });
 
-    $('#fotoUser').attr('src', dadosUser[0].foto);
+    //Puxar os dados do service desk
+    function gerarService() {
+            let gerarService = $.post("http://localhost:8081/dados-service", {usuario: 'teste'},
+            function serviceDesk(data) {
+              let valores = JSON.parse(data);
+              //console.log(valores);
+               
+              Object.keys(valores).forEach(function(key) {
+                $('#preService').after('<section class="hero is-small" style="align-items: center; padding: 20px"><form class="box" style="width: 85%;"><div class="field"><label class="label">Chamado nº #01</label><div class="columns"><div class="column"><label class="label">Título</label><div class="control"><input class="input" type="text" value="Teste" disabled></div></div><div class="column"><label class="label">Autor</label><div class="control"><input class="input" type="text" value="mardeson" disabled></div></div></div><label class="label">Descrição</label><div class="control"><input class="input" type="text" value="Teste" disabled></div><br><label class="label">Resposta</label><div class="control"><input class="input" type="text" placeholder="Insira a sua resposta aqui"></div></div></div><button class="button" id="login-btn" style="width: 100%;">Encerrar chamado</button></form></section>');
 
-    //Popula o crachá com os dados
-    $('#nomeCracha').html(`<strong>${(dadosUser[0].user).toUpperCase()}</strong>`);
-    $('#funcaoCracha').html(`${(dadosUser[0].cargo).toUpperCase()}`);
+                
 
-    $('#crachaBackUser').html(`${(dadosUser[0].user).toUpperCase()}`);
-    $('#crachaBackSetor').html(`${(dadosUser[0].setor).toUpperCase()}`);
-    $('#crachaBackCargo').html(`${(dadosUser[0].cargo).toUpperCase()}`);
-    $('#crachaBackData').html(`${(dadosUser[0].data)}`);
+                console.log(key,valores[key]);
 
-    
-  
-  };
+                });
 
-  const loaderCracha = setTimeout(() => {
-  $('#cardLogin').trigger('click');
-    }, 1500);
 
-  
+            })
+        };
 
-  function viraCracha(){
-      $('.back').show();
-      $("#cardLogin").flip(); 
-    }
+
+        gerarService();
+
+   };
+
   </script>
 </body>
 
