@@ -19,7 +19,7 @@ Após isso, é só criar um novo usuário e utilizar!
 - Armazenamento de senha com criptografia
 - Geração de PDF
 - Crachá digital gerado com os dados do usuário
-- Notificação via **mailtrap.io**
+- Service Desk
 
 #### Tecnologias utilizadas
 | Tech | Função |
