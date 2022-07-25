@@ -23,7 +23,7 @@ console.log('Tabela criada')
 db.run(createDB);
 
 //Cria o banco de dados para os chamados, caso ele não exista
-createDBDesk = `CREATE TABLE IF NOT EXISTS 'CHAMADOS' (id INTEGER PRIMARY KEY, titulo TEXT, descr TEXT, user TEXT, resposta TEXT)`;
+createDBDesk = `CREATE TABLE IF NOT EXISTS 'CHAMADOS' (id INTEGER PRIMARY KEY, titulo TEXT, descr TEXT, user TEXT, resposta TEXT, status TEXT)`;
 console.log('Tabela Service Desk criada')
 db.run(createDBDesk);
 
@@ -207,6 +207,15 @@ server.post('/fechar-chamado', (req, res) => {
   });
 
 
+});
+
+server.post('/abrir-chamado', (req, res) => {
+  let tituloChamado = req.body.titulo;
+  let descriChamado = req.body.descri;
+  let userChamado = req.body.user;
+  const inserirChamado = `INSERT INTO CHAMADOS (titulo, descr, user, status) VALUES ('${tituloChamado}', '${descriChamado}', '${userChamado}', 'aberto')`;
+  db.all(inserirChamado, (err, result, fields) => {
+    res.send('Feito');});
 });
 
 

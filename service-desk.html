@@ -64,9 +64,6 @@
             <a class="navbar-item">
               Service Desk
             </a>
-            <a class="navbar-item">
-              Configurações
-            </a>
           </div>
           <div class="navbar-end">
             <div class="navbar-item" onclick="logout()">
@@ -84,10 +81,40 @@
         <p class="subtitle" id="user-name" style="font-size: 14px">
           <i class="fa-solid fa-circle-info"></i><i> Para adicionar um novo chamado, clique em 'Adicionar'</i>
         </p>
-        <button class="button is-normal" id="login-btn" onclick="login()" style="width: 30%;">Abrir chamado</button>
+        <button class="button is-normal" id="login-btn" onclick="abrirChamado()" style="width: 40%;">Abrir chamado</button>
     </section>
     <div style="display: none" id="preService"></div>
 
+
+    <!-- Modal para Registro -->
+    <div class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card" id="registro">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Abrir Chamado</p>
+          <button class="delete" aria-label="close" onclick="fecharRegistro()"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="field">
+            <p class="control">
+            <p>Título do Chamado</p>
+            <input class="input" type="text" placeholder="Chamado" id="CHAMADO_titulo" required>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control">
+            <p>Descrição</p>
+            <input class="input" type="text" id="CHAMADO_descr" placeholder="Descreva o chamado" required>
+            </p>
+          </div>
+          
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button" onclick="criarChamado()">Salvar</button>
+          <button class="button" onclick="fecharRegistro()">Cancelar</button>
+        </footer>
+      </div>
+    </div>
 
   </section>
 
@@ -244,9 +271,39 @@
             if (data == 'Não'){
               window.alert('Você só pode encerrar chamados que você mesmo abriu!');
             }
+            else{
+              window.alert('Chamado encerrado com sucesso!');
+              window.location.replace('./service-desk');
+            }
         });
       }
     };
+
+    function abrirChamado(){
+      $('.modal').addClass('is-active');
+    }
+
+    function fecharRegistro() {
+        $('.modal').removeClass('is-active');
+      }
+
+      function criarChamado() {
+        let newChamado = [$('#CHAMADO_titulo').val(), $('#CHAMADO_descr').val(), dadosUser[0].user];
+        console.log(newChamado);
+        if ($('#CHAMADO_titulo').val() == '' || $('#CHAMADO_descr').val() == ''){
+          window.alert('Você deve preencher os dados');
+        }
+        else{
+          let novoChamado = $.post("http://localhost:8081/abrir-chamado", { titulo: $('#CHAMADO_titulo').val(), descri : $('#CHAMADO_descr').val(), user : dadosUser[0].user},
+          function novoService(data) {
+            if (data == 'Feito'){
+              window.alert('Chamado aberto com sucesso!');
+              $('.modal').removeClass('is-active');
+              window.location.replace('./service-desk');
+            }
+        });
+      } 
+      }
 
     };
 
