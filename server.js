@@ -23,7 +23,7 @@ console.log('Tabela criada')
 db.run(createDB);
 
 //Cria o banco de dados para os chamados, caso ele não exista
-createDBDesk = `CREATE TABLE IF NOT EXISTS 'CHAMADOS' (id INTEGER PRIMARY KEY, titulo TEXT, descr TEXT, user TEXT, resposta TEXT,status TEXT)`;
+createDBDesk = `CREATE TABLE IF NOT EXISTS 'CHAMADOS' (id INTEGER PRIMARY KEY, titulo TEXT, descr TEXT, user TEXT, resposta TEXT)`;
 console.log('Tabela Service Desk criada')
 db.run(createDBDesk);
 
@@ -170,6 +170,43 @@ server.post('/dados-service', (req, res) => {
   console.log(json);
   res.send(json);
 })
+});
+
+server.post('/fechar-chamado', (req, res) => {
+  var resposta = req.body.resp;
+  var idChamado = req.body.id;
+  idChamado = parseInt(idChamado) + 1;
+  var userLocal = req.body.user;
+ console.log(idChamado);
+  const consultaChamado = `SELECT * FROM CHAMADOS WHERE id = '${idChamado}'`;
+  db.all(consultaChamado, (err, result, fields) => {
+    let id = result[0].id;
+    console.log(result);
+    let user = result[0].user;
+    
+    checaChamado(id,resposta, user);
+
+    function checaChamado (id, resp, user){
+      console.log(id);
+      console.log(resp);
+      if (user != userLocal){
+        
+        console.log(resp);
+        res.send('Não')
+      }
+      else{
+        console.log('Iguais');
+        let UpaResposta = `UPDATE CHAMADOS SET resposta =  ('${resp}'), status = 'fechado' WHERE id = ${id}`;
+        db.all(UpaResposta, (err, result, fields) => {
+        console.log(UpaResposta);
+        res.send('Sim')
+        });
+      }
+    }
+
+  });
+
+
 });
 
 
