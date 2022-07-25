@@ -7,7 +7,11 @@ Projeto de um portal para usuário como etapa para vaga de _estágio fullstack_ 
 O portal permite que o usuário se cadastre e tenha acesso a funcionalidades como consulta de contra-cheque, crachá digital e _service desk_.
 
 #### Como utilizar
-_Em desenvolvimento_
+Clone o repositório e, utilizando o Git Bash ou algum Shell similar, rode o código:
+```sh
+nodemon node server.js
+```
+Após isso, é só criar um novo usuário e utilizar!
 
 #### Features
 - Criação de usuário com armazenamento de dados em SQLite
@@ -25,4 +29,4 @@ _Em desenvolvimento_
 | JQuery | Biblioteca JS |
 | SQLite | Banco de dados |
 | Node.js | BackEnd |
-| Bcrypt.js | Biblioteca para encriptação de senhas |
+| sha512 | Encriptação de senhas |
